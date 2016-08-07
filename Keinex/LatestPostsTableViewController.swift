@@ -79,21 +79,13 @@ class LatestNewsTableViewController: UITableViewController {
             return
         }
         
-        // An action must always proceed the guard conditional
         cell.postTitle!.text = String(htmlEncodedString:  title)
         
-        //Make sure post date is a string
         guard let date = self.json[index]["date"].string else{
             cell.postDate!.text = "--"
             return
         }
         cell.postDate!.text = date
-        
-        /*
-         * Set up Featured Image
-         * Using guard, there's no need for nested if statements 
-         * to unwrap and check optionals
-         */
         
         guard let image = self.json[index]["better_featured_image"]["source_url"].string where
         image != "null"
