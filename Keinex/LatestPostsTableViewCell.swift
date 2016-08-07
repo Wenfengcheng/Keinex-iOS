@@ -3,7 +3,7 @@
 //  Keinex
 //
 //  Created by Андрей on 7/15/15.
-//  Copyright (c) 2016Keinex. All rights reserved.
+//  Copyright (c) 2016 Keinex. All rights reserved.
 //
 
 import UIKit

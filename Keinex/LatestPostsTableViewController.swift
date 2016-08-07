@@ -29,6 +29,10 @@ class LatestNewsTableViewController: UITableViewController {
         self.refreshControl = refreshControl
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.tabBarController?.tabBar.hidden = false
+    }
+    
     func newNews() {
         getNews(latestNews)
         self.tableView.reloadData()
@@ -152,8 +156,8 @@ class LatestNewsTableViewController: UITableViewController {
         
         let singlePostVC : SinglePostViewController = storyboard!.instantiateViewControllerWithIdentifier("SinglePostViewController") as! SinglePostViewController
         singlePostVC.json = self.json[indexPath.row]
+        self.tabBarController?.tabBar.hidden = true
         self.navigationController?.pushViewController(singlePostVC, animated: true)
-        
     }
 }
 

@@ -28,9 +28,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
-                mc.navigationBar.barTintColor = UIColor.blackColor()
-                mc.navigationBar.tintColor = UIColor.blackColor()
-                mc.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.blackColor()]
+                mc.navigationBar.barTintColor = UIColor.mainColor()
+                mc.navigationBar.tintColor = UIColor.mainColor()
+                mc.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.mainColor()]
                 mc.setToRecipients(["info@keinex.info"])
                 mc.setSubject("Keinex app")
                 mc.addAttachmentData(deviceInfo, mimeType: "text/plain", fileName: "device_information.txt")
