@@ -39,9 +39,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         } else if (indexPath.section == 0 && indexPath.row == 1) {
                 let openLink = NSURL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
                 UIApplication.sharedApplication().openURL(openLink!)
-        } else if (indexPath.section == 0 && indexPath.row == 2) {
-            print("Section 0, indexPath.row 2")
-
         }
     }
     
