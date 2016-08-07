@@ -25,7 +25,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height + 50)
         scrollView.showsHorizontalScrollIndicator = false
         self.view.addSubview(scrollView)
         
@@ -64,7 +64,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
             postTime.textColor = UIColor.grayColor()
             postTime.font = UIFont(name: postTime.font.fontName, size: 12)
             postTime.textAlignment = NSTextAlignment.Center
-            postTime.text = date
+            postTime.text = date.stringByReplacingOccurrencesOfString("T", withString: " ", options: NSStringCompareOptions.LiteralSearch, range: nil)
 
             self.scrollView.addSubview(postTime)
         }
@@ -101,7 +101,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     
     func webViewDidFinishLoad(webView: UIWebView) {
     
-        postContentWeb.frame = CGRect(x: 10, y: (generalPadding * 4 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), width: self.view.frame.size.width - 20, height: postContentWeb.scrollView.contentSize.height + 10)
+        postContentWeb.frame = CGRect(x: 10, y: (generalPadding * 4 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), width: self.view.frame.size.width - 20, height: postContentWeb.scrollView.contentSize.height + 70)
         
         var finalHeight : CGFloat = 0
         self.scrollView.subviews.forEach { (subview) -> () in

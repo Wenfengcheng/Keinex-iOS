@@ -258,6 +258,11 @@
 					7F8193AB1B57659B0011A2E8 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = 837V938WT9;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					7F8193C01B57659B0011A2E8 = {
 						CreatedOnToolsVersion = 6.4;
@@ -492,6 +497,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.keinex.app;
 				PRODUCT_NAME = Keinex;
+				PROVISIONING_PROFILE = "e38a695b-62b7-41bf-8c03-11322b2ac064";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -507,6 +513,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.keinex.app;
 				PRODUCT_NAME = Keinex;
+				PROVISIONING_PROFILE = "e38a695b-62b7-41bf-8c03-11322b2ac064";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -85,11 +85,12 @@ class LatestNewsTableViewController: UITableViewController {
         
         cell.postTitle!.text = String(htmlEncodedString: title)
         
-        guard let date = self.json[index]["date"].string else{
+        guard let date = self.json[index]["date"].string else {
             cell.postDate!.text = "--"
             return
         }
-        cell.postDate!.text = String(htmlEncodedString: date)
+
+        cell.postDate!.text = date.stringByReplacingOccurrencesOfString("T", withString: " ", options: NSStringCompareOptions.LiteralSearch, range: nil)
         
         guard let image = self.json[index]["better_featured_image"]["source_url"].string where
         image != "null" else {

@@ -5,5 +5,6 @@ use_frameworks!
 target 'Keinex' do
     pod 'SwiftyJSON'
     pod 'Alamofire'
+    pod 'Mixpanel'
 end
 
