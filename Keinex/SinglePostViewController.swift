@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class SinglePostViewController: UIViewController, UIWebViewDelegate {
 
@@ -18,6 +19,8 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     lazy var postContent : UILabel = UILabel()
     lazy var postContentWeb : UIWebView = UIWebView()
     lazy var generalPadding : CGFloat = 10
+    
+    let isiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,21 +43,22 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         
         if let title = json["title"]["rendered"].string {
             
-            postTitle.frame = CGRect(x: 40, y: self.view.frame.size.height / 3 + generalPadding * 2, width:self.view.frame.size.width - 20, height: self.view.frame.size.height / 3)
+            postTitle.frame = CGRect(x: 10, y: (generalPadding * 2 + featuredImage.frame.height), width:self.view.frame.size.width - 20, height: 50)
             postTitle.textColor = UIColor.blackColor()
             postTitle.textAlignment = NSTextAlignment.Center
-            postTitle.lineBreakMode = NSLineBreakMode.ByWordWrapping
             postTitle.font = UIFont.systemFontOfSize(24.0)
-            postTitle.numberOfLines = 3
+            postTitle.numberOfLines = 2
+            postTitle.adjustsFontSizeToFitWidth = true
+            postTitle.baselineAdjustment = .AlignCenters
+            postTitle.minimumScaleFactor = 0.5
             postTitle.text = String(htmlEncodedString:  title)
-            postTitle.sizeToFit()
             self.scrollView.addSubview(postTitle)
             
         }
         
         if let date = json["date"].string{
             
-            postTime.frame = CGRectMake(10, (generalPadding * 2.5 + postTitle.frame.height + featuredImage.frame.height), self.view.frame.size.width - 20, 20)
+            postTime.frame = CGRect(x: 0, y: (generalPadding * 3 + postTitle.frame.height + featuredImage.frame.height), width: self.view.frame.size.width, height: 20)
             postTime.textColor = UIColor.grayColor()
             postTime.font = UIFont(name: postTime.font.fontName, size: 12)
             postTime.textAlignment = NSTextAlignment.Center
@@ -65,24 +69,13 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         
         if let content = json["content"]["rendered"].string{
             
-            /*
-            postContent.frame = CGRectMake(10, (generalPadding * 2 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), self.view.frame.size.width - 20, 1)
-            postContent.numberOfLines = 0
-            self.scrollView.addSubview(postContent)
-            */
-            
             let webContent : String = "<!DOCTYPE HTML><html><head><title></title><link rel='stylesheet' href='appStyles.css'></head><body>" + content + "</body></html>"
             let mainbundle = NSBundle.mainBundle().bundlePath
             let bundleURL = NSURL(fileURLWithPath: mainbundle)
-        
             
             postContentWeb.loadHTMLString(webContent, baseURL: bundleURL)
-            postContentWeb.frame = CGRectMake(10, (generalPadding * 2 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), self.view.frame.size.width - 20, 10)
+            postContentWeb.frame = CGRectMake(10, (generalPadding * 3 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), self.view.frame.size.width - 20, 10)
             postContentWeb.delegate = self
-            postContent.font = UIFont.systemFontOfSize(16.0)
-            postContent.lineBreakMode = NSLineBreakMode.ByWordWrapping
-            postContent.text = content
-            postContent.sizeToFit()
             self.scrollView.addSubview(postContentWeb)
         }
         
@@ -90,12 +83,20 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         self.navigationItem.rightBarButtonItem = shareButton
     }
     
-    
+    func wightValue() -> CGFloat {
+        var wightValue = 0.0
+        if isiPad {
+            wightValue = 1.15
+        } else {
+            wightValue = 1.3
+        }
+        return CGFloat(wightValue)
+    }
 
     
     func webViewDidFinishLoad(webView: UIWebView) {
     
-        postContentWeb.frame = CGRectMake(10, (generalPadding * 2 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), self.view.frame.size.width - 20, postContentWeb.scrollView.contentSize.height + 150)
+        postContentWeb.frame = CGRectMake(10, (generalPadding * 4 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), self.view.frame.size.width - 20, postContentWeb.scrollView.contentSize.height + 150)
         
         var finalHeight : CGFloat = 0
         self.scrollView.subviews.forEach { (subview) -> () in
@@ -103,6 +104,38 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         }
         
         self.scrollView.contentSize.height = finalHeight
+        
+        showCommentsButton()
+    }
+    
+    func showCommentsButton() {
+        let commentsButton = UIButton(frame: CGRect(x: self.view.frame.size.width / wightValue(), y: self.view.frame.size.height / 3.15, width: 50, height: 50))
+        let image = UIImage(named: "Message.png")
+        commentsButton.backgroundColor = .whiteColor()
+        commentsButton.setImage(image, forState: .Normal)
+        commentsButton.layer.cornerRadius = 25
+        commentsButton.layer.shadowOffset = CGSizeMake(1, 0)
+        commentsButton.layer.shadowOpacity = 1.0
+        commentsButton.layer.shadowColor = UIColor.blackColor().CGColor
+        commentsButton.layer.shadowRadius = 1
+        commentsButton.addTarget(self, action: #selector(commentsButtonAction), forControlEvents: .TouchUpInside)
+        self.scrollView.addSubview(commentsButton)
+        
+        commentsButton.transform = CGAffineTransformMakeScale(0.6, 0.6)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            commentsButton.transform = CGAffineTransformMakeScale(1,1)
+        })
+    }
+    
+    func commentsButtonAction(sender: UIButton!) {
+        if #available(iOS 9.0, *) {
+            let svc = SFSafariViewController(URL: NSURL(string: json["link"].string! + "#respond")!, entersReaderIfAvailable: false)
+            svc.view.tintColor = UIColor.blackColor()
+            self.presentViewController(svc, animated: true, completion: nil)
+        } else {
+            let openLink = NSURL(string : json["link"].string! + "#respond")
+            UIApplication.sharedApplication().openURL(openLink!)
+        }
     }
     
     func ShareLink() {
