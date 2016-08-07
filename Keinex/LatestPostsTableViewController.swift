@@ -11,16 +11,28 @@ import Alamofire
 
 class LatestNewsTableViewController: UITableViewController {
 
-    let latestNews : String = "http://keinex.com/wp-json/wp/v2/posts/"
-    
-    let parameters : [String:AnyObject] = [
-        "filter[posts_per_page]" : 50
-    ]
-    
+    var latestNews: String = "http://keinex.com/wp-json/wp/v2/posts/"
+    let parameters: [String:AnyObject] = ["filter[posts_per_page]" : 50]
     var json : JSON = JSON.null
+    let lang = NSLocale.currentLocale().localeIdentifier
+
+    func SourceUrl() -> String {
+        if lang == "ru_RU" {
+            latestNews = "https://keinex.ru/wp-json/wp/v2/posts/"
+        } else {
+            latestNews = "http://keinex.com/wp-json/wp/v2/posts/"
+        }
+        return latestNews
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        SourceUrl()
+        
+        self.title = NSLocalizedString("News", comment: "")
+        
+        tabBarController?.tabBar.items?[0].title = NSLocalizedString("News", comment: "")
+        tabBarController?.tabBar.items?[1].title = NSLocalizedString("Settings", comment: "")
         
         getNews(latestNews)
         
@@ -40,17 +52,17 @@ class LatestNewsTableViewController: UITableViewController {
     }
 
     func getNews(getNews : String) {
-        Alamofire.request(.GET, getNews, parameters:parameters)
-            .responseJSON { response in
-                
-                guard let data = response.result.value else{
-                    print("Request failed with error")
-                    return
-                }
-                
-                self.json = JSON(data)
-                self.tableView.reloadData()
-                
+        Alamofire.request(.GET, getNews, parameters:parameters).responseJSON { response in
+            guard let data = response.result.value else {
+                print("Request failed with error")
+                return
+            }
+            self.json = JSON(data)
+            self.tableView.reloadData()
+            
+            for index in 1...self.json.count {
+                print(self.json[index]["title"]["rendered"])
+            }
         }
     }
     
@@ -65,12 +77,11 @@ class LatestNewsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         switch self.json.type {
             case Type.Array:
                 return self.json.count
             default:
-                return 5
+                return 10
         }
     }
     
@@ -79,7 +90,7 @@ class LatestNewsTableViewController: UITableViewController {
         //Make sure post title is a string
         
         guard let title = self.json[index]["title"]["rendered"].string else{
-            cell.postTitle!.text = "Loading..."
+            cell.postTitle!.text = NSLocalizedString("Loading...", comment: "")
             return
         }
         
@@ -99,7 +110,7 @@ class LatestNewsTableViewController: UITableViewController {
         }
     
         ImageLoader.sharedLoader.imageForUrl(image, completionHandler:{(image: UIImage?, url: String) in
-            cell.postImage.image = image!
+            cell.postImage.image = image
         })
     }
 
@@ -110,43 +121,6 @@ class LatestNewsTableViewController: UITableViewController {
 
         return cell
     }
-    
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
     // MARK: - Navigation
 

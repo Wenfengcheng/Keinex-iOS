@@ -136,8 +136,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
             svc.view.tintColor = UIColor.mainColor()
             self.presentViewController(svc, animated: true, completion: nil)
         } else {
-            let openLink = NSURL(string : json["link"].string! + "#respond")
-            UIApplication.sharedApplication().openURL(openLink!)
+            UIApplication.sharedApplication().openURL(NSURL(string : json["link"].string! + "#respond")!)
         }
     }
     

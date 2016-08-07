@@ -40,7 +40,7 @@ JSON's type definitions.
 
 See http://tools.ietf.org/html/rfc7231#section-4.3
 */
-public enum Type :Int{
+public enum Type :Int {
     
     case Number
     case String

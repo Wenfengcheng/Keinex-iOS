@@ -12,14 +12,23 @@ import MessageUI
 import SafariServices
 
 class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
+
+    @IBOutlet weak var SupportLabel: UILabel!
+    @IBOutlet weak var OurAppsLabel: UILabel!
+    @IBOutlet weak var VersionLabel: UILabel!
+    @IBOutlet weak var VersionNumber: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = NSLocalizedString("Settings", comment: "")
         let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
-        VersionLabel.text = version
+        SupportLabel.text = NSLocalizedString("Support", comment: "")
+        OurAppsLabel.text = NSLocalizedString("Our apps", comment: "")
+        VersionLabel.text = NSLocalizedString("Version:", comment: "")
+        VersionNumber.text = version
     }
-
-    @IBOutlet weak var VersionLabel: UILabel!
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -28,9 +37,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
-                mc.navigationBar.barTintColor = UIColor.mainColor()
-                mc.navigationBar.tintColor = UIColor.whiteColor()
-                mc.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+                mc.navigationBar.barTintColor = UIColor.whiteColor()
+                mc.navigationBar.tintColor = UIColor.mainColor()
+                mc.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.mainColor()]
                 mc.setToRecipients(["info@keinex.info"])
                 mc.setSubject("Keinex app")
                 mc.addAttachmentData(deviceInfo, mimeType: "text/plain", fileName: "device_information.txt")
@@ -45,19 +54,15 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     func generateDeviceInfo() -> String {
         let device = UIDevice.currentDevice()
         let dictionary = NSBundle.mainBundle().infoDictionary!
-        let name = dictionary["CFBundleName"] as! String
         let version = dictionary["CFBundleShortVersionString"] as! String
         let build = dictionary["CFBundleVersion"] as! String
         
         var deviceInfo = "App Information:\r"
-        deviceInfo += "App Name: \(name)\r"
         deviceInfo += "App Version: \(version) (\(build))\r\r"
-        
-        deviceInfo += "Device Information:\r"
         deviceInfo += "Device: \(deviceName())\r"
         deviceInfo += "iOS Version: \(device.systemVersion)\r"
         deviceInfo += "Timezone: \(NSTimeZone.localTimeZone().name) (\(NSTimeZone.localTimeZone().abbreviation!))\r\r"
-        
+    
         return deviceInfo
     }
     

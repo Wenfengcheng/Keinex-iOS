@@ -1,0 +1,33 @@
+
+/* Class = "UILabel"; text = "---"; ObjectID = "6eB-03-a7H"; */
+"6eB-03-a7H.text" = "---";
+
+/* Class = "UILabel"; text = "Loading..."; ObjectID = "9VK-1I-zem"; */
+"9VK-1I-zem.text" = "Loading...";
+
+/* Class = "UITabBarController"; title = "News"; ObjectID = "AM8-f0-9ZI"; */
+"AM8-f0-9ZI.title" = "News";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "Do7-mc-eZ7"; */
+"Do7-mc-eZ7.title" = "Settings";
+
+/* Class = "UITabBarItem"; title = "News"; ObjectID = "EIF-YV-a6F"; */
+"EIF-YV-a6F.title" = "News";
+
+/* Class = "UILabel"; text = "0.0"; ObjectID = "HpL-z1-HbF"; */
+"HpL-z1-HbF.text" = "0.0";
+
+/* Class = "UINavigationItem"; title = "News"; ObjectID = "LfH-wW-hVK"; */
+"LfH-wW-hVK.title" = "News";
+
+/* Class = "UILabel"; text = "Version"; ObjectID = "LmV-RW-w2G"; */
+"LmV-RW-w2G.text" = "Version";
+
+/* Class = "UILabel"; text = "Support"; ObjectID = "Uwp-mI-3SY"; */
+"Uwp-mI-3SY.text" = "Support";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "XdZ-Lc-sSd"; */
+"XdZ-Lc-sSd.title" = "Settings";
+
+/* Class = "UILabel"; text = "Our apps"; ObjectID = "wqU-td-it8"; */
+"wqU-td-it8.text" = "Our apps";

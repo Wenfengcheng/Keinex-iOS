@@ -24,16 +24,17 @@
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AaW-kN-oWi">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
+                                            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="6zG-FZ-x03">
+                                        <imageView userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="6zG-FZ-x03">
                                             <rect key="frame" x="0.0" y="170" width="375" height="70"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9VK-1I-zem">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="wordWrap" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9VK-1I-zem">
                                             <rect key="frame" x="8" y="170" width="359" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="33" id="GqV-NM-rfM"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -42,7 +43,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="17" id="IuV-JQ-jef"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -77,6 +78,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="News" id="LfH-wW-hVK"/>
+                    <connections>
+                        <outlet property="tableView" destination="3ir-ha-Efq" id="rJw-Pj-uBv"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wuv-J0-e1m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -99,7 +103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s8h-08-o0x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1918.5" y="273.5"/>
+            <point key="canvasLocation" x="1442.5" y="236.5"/>
         </scene>
         <!--Settings-->
         <scene sceneID="cH7-KO-hyA">
@@ -154,8 +158,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LmV-RW-w2G">
-                                                    <rect key="frame" x="15" y="12" width="54" height="19.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Version:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LmV-RW-w2G">
+                                                    <rect key="frame" x="15" y="12" width="58.5" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -183,7 +187,10 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="VersionLabel" destination="HpL-z1-HbF" id="UG0-nc-5wY"/>
+                        <outlet property="OurAppsLabel" destination="wqU-td-it8" id="Rjz-67-KlH"/>
+                        <outlet property="SupportLabel" destination="Uwp-mI-3SY" id="pTc-OR-cBo"/>
+                        <outlet property="VersionLabel" destination="LmV-RW-w2G" id="GKN-Am-YaA"/>
+                        <outlet property="VersionNumber" destination="HpL-z1-HbF" id="ssM-9t-mdn"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8C5-2e-o1p" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -193,7 +200,6 @@
         <!--News-->
         <scene sceneID="EEj-qM-L3D">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Hfs-Vj-tzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tabBarController title="News" id="AM8-f0-9ZI" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="TOD-ZE-2jb"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -214,6 +220,7 @@
                         <segue destination="38C-pF-orZ" kind="relationship" relationship="viewControllers" id="T3f-fs-8Hr"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hfs-Vj-tzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="34" y="123"/>
         </scene>
@@ -243,7 +250,6 @@
         <!--Settings-->
         <scene sceneID="TVT-Si-EiM">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tbB-0H-YF0" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="38C-pF-orZ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="Settings" id="XdZ-Lc-sSd"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -260,6 +266,7 @@
                         <segue destination="iXb-k9-EGb" kind="relationship" relationship="rootViewController" id="bzI-bE-7DQ"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tbB-0H-YF0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="590.5" y="-505.5"/>
         </scene>
