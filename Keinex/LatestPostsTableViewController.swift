@@ -3,7 +3,7 @@
 //  Keinex
 //
 //  Created by Андрей on 7/15/15.
-//  Copyright (c) 2016Keinex. All rights reserved.
+//  Copyright (c) 2016 Keinex. All rights reserved.
 //
 
 import UIKit
@@ -92,9 +92,7 @@ class LatestNewsTableViewController: UITableViewController {
         cell.postDate!.text = String(htmlEncodedString: date)
         
         guard let image = self.json[index]["better_featured_image"]["source_url"].string where
-        image != "null"
-            else{
-            
+        image != "null" else {
             print("Image didn't load")
             return
         }
