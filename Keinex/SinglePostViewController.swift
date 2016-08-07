@@ -36,7 +36,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
             featuredImage.clipsToBounds = true
 
             ImageLoader.sharedLoader.imageForUrl(featured, completionHandler:{(image: UIImage?, url: String) in
-                self.featuredImage.image = image!
+                self.featuredImage.image = image
             })
             
             self.scrollView.addSubview(featuredImage)
