@@ -25,7 +25,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height + 50)
+        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         scrollView.showsHorizontalScrollIndicator = false
         self.view.addSubview(scrollView)
         
