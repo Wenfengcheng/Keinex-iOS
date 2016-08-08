@@ -16,8 +16,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     @IBOutlet weak var SupportLabel: UILabel!
     @IBOutlet weak var OurAppsLabel: UILabel!
     @IBOutlet weak var VersionLabel: UILabel!
-    @IBOutlet weak var VersionNumber: UILabel!
-    
+    @IBOutlet weak var VersionNumber: UILabel!    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +28,11 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         VersionLabel.text = NSLocalizedString("Version:", comment: "")
         VersionNumber.text = version
     }
+    
+    @IBAction func CloseButtonAction(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

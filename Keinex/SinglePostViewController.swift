@@ -20,7 +20,6 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     lazy var postContentWeb : UIWebView = UIWebView()
     lazy var generalPadding : CGFloat = 10
     
-    let isiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
     
     override func viewDidLoad() {
         super.viewDidLoad()

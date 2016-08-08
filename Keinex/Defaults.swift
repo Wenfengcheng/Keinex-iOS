@@ -7,7 +7,8 @@
 //
 
 import Foundation
+import UIKit
 
 let userDefaults = NSUserDefaults.standardUserDefaults()
-let KeinexSourceUrl = "Url"
-
+let isiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+let latestPostValue = "postValue"

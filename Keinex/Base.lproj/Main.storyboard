@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AM8-f0-9ZI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Fnb-Dr-Uas">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -77,7 +77,18 @@
                             <outlet property="delegate" destination="i4v-rm-Cc2" id="wRW-GV-H2t"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="News" id="LfH-wW-hVK"/>
+                    <navigationItem key="navigationItem" title="News" id="LfH-wW-hVK">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="H3d-0d-SYy">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b8l-sT-R6K">
+                                <rect key="frame" x="16" y="11" width="76" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Settings"/>
+                                <connections>
+                                    <segue destination="38C-pF-orZ" kind="presentation" id="Slo-as-U6l"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="3ir-ha-Efq" id="rJw-Pj-uBv"/>
                     </connections>
@@ -183,7 +194,13 @@
                             <outlet property="delegate" destination="iXb-k9-EGb" id="MAt-d4-bsH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="Do7-mc-eZ7"/>
+                    <navigationItem key="navigationItem" title="Settings" id="Do7-mc-eZ7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="e5w-UD-opT">
+                            <connections>
+                                <action selector="CloseButtonAction:" destination="iXb-k9-EGb" id="Khw-0H-mcd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -196,33 +213,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8C5-2e-o1p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1013.5" y="-505.5"/>
-        </scene>
-        <!--News-->
-        <scene sceneID="EEj-qM-L3D">
-            <objects>
-                <tabBarController title="News" id="AM8-f0-9ZI" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="TOD-ZE-2jb"/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="vGq-dh-yM2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="0.16470588235294117" green="0.16470588235294117" blue="0.21568627450980393" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </tabBar>
-                    <connections>
-                        <segue destination="Fnb-Dr-Uas" kind="relationship" relationship="viewControllers" id="JUa-0w-EcF"/>
-                        <segue destination="38C-pF-orZ" kind="relationship" relationship="viewControllers" id="T3f-fs-8Hr"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Hfs-Vj-tzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="34" y="123"/>
         </scene>
         <!--News-->
         <scene sceneID="1rH-qn-Btq">

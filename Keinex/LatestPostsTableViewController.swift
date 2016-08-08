@@ -27,14 +27,15 @@ class LatestNewsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.userInteractionEnabled = false
+        
         SourceUrl()
-        
+        getNews()
+
         self.title = NSLocalizedString("News", comment: "")
-        
         tabBarController?.tabBar.items?[0].title = NSLocalizedString("News", comment: "")
         tabBarController?.tabBar.items?[1].title = NSLocalizedString("Settings", comment: "")
-        
-        getNews(latestNews)
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(LatestNewsTableViewController.newNews), forControlEvents: UIControlEvents.ValueChanged)
@@ -46,23 +47,30 @@ class LatestNewsTableViewController: UITableViewController {
     }
     
     func newNews() {
-        getNews(latestNews)
+        getNews()
         self.tableView.reloadData()
         refreshControl?.endRefreshing()
     }
 
-    func getNews(getNews : String) {
-        Alamofire.request(.GET, getNews, parameters:parameters).responseJSON { response in
+    func getNews() {
+        Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
             guard let data = response.result.value else {
                 print("Request failed with error")
                 return
             }
             self.json = JSON(data)
-            self.tableView.reloadData()
-            
-            for index in 1...self.json.count {
-                print(self.json[index]["title"]["rendered"])
+            self.tableView.userInteractionEnabled = true
+
+            //Check new post
+            let latestPostTitle = userDefaults.stringForKey("postValue")
+            if latestPostTitle == String(self.json[0]["title"]["rendered"]) {
+                print("Latest post is latest")
+            } else {
+                print("Latest post is different")
+                userDefaults.setObject(String(self.json[0]["title"]["rendered"]), forKey: latestPostValue)
             }
+
+            self.tableView.reloadData()
         }
     }
     
@@ -85,9 +93,9 @@ class LatestNewsTableViewController: UITableViewController {
         }
     }
     
+    // MARK: Load cells data from site
+    
     func populateFields(cell: LatestNewsTableViewCell, index: Int){
-        
-        //Make sure post title is a string
         
         guard let title = self.json[index]["title"]["rendered"].string else{
             cell.postTitle!.text = NSLocalizedString("Loading...", comment: "")
