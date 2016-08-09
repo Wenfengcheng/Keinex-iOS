@@ -37,7 +37,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if (indexPath.section == 0 && indexPath.row == 0) {
+        if (indexPath.section == 0 && indexPath.row == 1) {
             if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
@@ -49,7 +49,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 mc.addAttachmentData(deviceInfo, mimeType: "text/plain", fileName: "device_information.txt")
                 self.presentViewController(mc, animated: true, completion: nil)
             }
-        } else if (indexPath.section == 0 && indexPath.row == 1) {
+        } else if (indexPath.section == 0 && indexPath.row == 2) {
                 let openLink = NSURL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
                 UIApplication.sharedApplication().openURL(openLink!)
         }
@@ -91,11 +91,10 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }

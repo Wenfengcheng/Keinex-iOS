@@ -69,7 +69,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         }
         
         if let content = json["content"]["rendered"].string{
-            
+    
             let webContent : String = "<!DOCTYPE HTML><html><head><title></title><link rel='stylesheet' href='appStyles.css'></head><body>" + content + "</body></html>"
             let mainbundle = NSBundle.mainBundle().bundlePath
             let bundleURL = NSURL(fileURLWithPath: mainbundle)
@@ -113,7 +113,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     
     func showCommentsButton() {
         let commentsButton = UIButton(frame: CGRect(x: self.view.frame.size.width / wightValue(), y: self.view.frame.size.height / 3.15, width: 50, height: 50))
-        let image = UIImage(named: "Message.png")
+        let image = UIImage(named: "Messages.png")
         commentsButton.backgroundColor = UIColor.mainColor()
         commentsButton.setImage(image, forState: .Normal)
         commentsButton.layer.cornerRadius = 25
