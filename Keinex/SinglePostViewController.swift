@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SafariServices
 
 class SinglePostViewController: UIViewController, UIWebViewDelegate {
 
@@ -131,9 +130,9 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     
     func commentsButtonAction(sender: UIButton!) {
         if #available(iOS 9.0, *) {
-            let svc = SFSafariViewController(URL: NSURL(string: json["link"].string! + "#respond")!, entersReaderIfAvailable: false)
-            svc.view.tintColor = UIColor.mainColor()
-            self.presentViewController(svc, animated: true, completion: nil)
+            let csvc = CustomSafariViewContoller(URL: NSURL(string: json["link"].string! + "#respond")!, entersReaderIfAvailable: false)
+            csvc.view.tintColor = UIColor.mainColor()
+            self.presentViewController(csvc, animated: true, completion: nil)
         } else {
             UIApplication.sharedApplication().openURL(NSURL(string : json["link"].string! + "#respond")!)
         }
@@ -164,16 +163,6 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+

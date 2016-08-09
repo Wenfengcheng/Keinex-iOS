@@ -12,6 +12,7 @@
 		552157531D574C87001C50EB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552157521D574C87001C50EB /* Colors.swift */; };
 		552157551D57588B001C50EB /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552157541D57588B001C50EB /* Defaults.swift */; };
 		556B580A1D566C1300ABBBCB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 556B58091D566C1300ABBBCB /* Launch Screen.storyboard */; };
+		5585DF6B1D5A0FF1004C3851 /* SFSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585DF6A1D5A0FF1004C3851 /* SFSafariViewController.swift */; };
 		55A89C3D1D57A7B300EBEC23 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55A89C3F1D57A7B300EBEC23 /* Localizable.strings */; };
 		7F1121421BAB5DC800FC8B48 /* Essentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1121411BAB5DC800FC8B48 /* Essentials.swift */; };
 		7F8193B21B57659B0011A2E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8193B11B57659B0011A2E8 /* AppDelegate.swift */; };
@@ -42,6 +43,7 @@
 		552157521D574C87001C50EB /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		552157541D57588B001C50EB /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		556B58091D566C1300ABBBCB /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		5585DF6A1D5A0FF1004C3851 /* SFSafariViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSafariViewController.swift; sourceTree = "<group>"; };
 		55A89C3E1D57A7B300EBEC23 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		55A89C401D57A7B600EBEC23 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7F1121411BAB5DC800FC8B48 /* Essentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Essentials.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				7FCB6B5F1BB0968F0027BC95 /* SwiftyJSON.swift */,
 				552157521D574C87001C50EB /* Colors.swift */,
 				552157541D57588B001C50EB /* Defaults.swift */,
+				5585DF6A1D5A0FF1004C3851 /* SFSafariViewController.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				552157531D574C87001C50EB /* Colors.swift in Sources */,
 				7F8193B21B57659B0011A2E8 /* AppDelegate.swift in Sources */,
 				550E38C81D5693B4001B4E98 /* SettingsViewController.swift in Sources */,
+				5585DF6B1D5A0FF1004C3851 /* SFSafariViewController.swift in Sources */,
 				7F8193D21B5770BD0011A2E8 /* LatestPostsTableViewController.swift in Sources */,
 				7F8193D41B5770DE0011A2E8 /* LatestPostsTableViewCell.swift in Sources */,
 				7FCB6B601BB0968F0027BC95 /* SwiftyJSON.swift in Sources */,

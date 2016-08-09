@@ -14,7 +14,6 @@ class LatestNewsTableViewController: UITableViewController {
     var latestNews: String = "http://keinex.com/wp-json/wp/v2/posts/"
     let parameters: [String:AnyObject] = ["filter[posts_per_page]" : 50]
     var json : JSON = JSON.null
-    let lang = NSLocale.currentLocale().localeIdentifier
 
     func SourceUrl() -> String {
         if lang == "ru_RU" {

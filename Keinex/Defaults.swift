@@ -11,4 +11,5 @@ import UIKit
 
 let userDefaults = NSUserDefaults.standardUserDefaults()
 let isiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+let lang = NSLocale.currentLocale().localeIdentifier
 let latestPostValue = "postValue"

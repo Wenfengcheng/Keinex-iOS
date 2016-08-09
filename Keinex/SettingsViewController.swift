@@ -17,12 +17,16 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     @IBOutlet weak var OurAppsLabel: UILabel!
     @IBOutlet weak var VersionLabel: UILabel!
     @IBOutlet weak var VersionNumber: UILabel!    
+    @IBOutlet weak var SourceLabel: UILabel!
+    @IBOutlet weak var SourceUrl: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("Settings", comment: "")
         let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
+        SourceLabel.text = NSLocalizedString("Source:", comment: "")
+        SourceUrl.text = SourceUrlText()
         SupportLabel.text = NSLocalizedString("Support", comment: "")
         OurAppsLabel.text = NSLocalizedString("Our apps", comment: "")
         VersionLabel.text = NSLocalizedString("Version:", comment: "")
@@ -31,6 +35,15 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     
     @IBAction func CloseButtonAction(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func SourceUrlText() -> String {
+        if lang == "ru_RU" {
+            SourceUrl.text = "keinex.ru"
+        } else {
+            SourceUrl.text = "keinex.com"
+        }
+        return SourceUrl.text!
     }
     
     

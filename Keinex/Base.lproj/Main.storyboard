@@ -229,6 +229,8 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="OurAppsLabel" destination="wqU-td-it8" id="Rjz-67-KlH"/>
+                        <outlet property="SourceLabel" destination="h0A-dC-dMF" id="oGO-9o-ZK8"/>
+                        <outlet property="SourceUrl" destination="uVm-ql-Vzf" id="dTR-bB-3hG"/>
                         <outlet property="SupportLabel" destination="Uwp-mI-3SY" id="pTc-OR-cBo"/>
                         <outlet property="VersionLabel" destination="LmV-RW-w2G" id="GKN-Am-YaA"/>
                         <outlet property="VersionNumber" destination="HpL-z1-HbF" id="ssM-9t-mdn"/>
