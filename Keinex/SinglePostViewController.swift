@@ -141,9 +141,12 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     func ShareLink() {
         let textToShare = json["title"]["rendered"].string! + " "
         
-        if let myWebsite = NSURL(string: json["link"].string!) {
-            let objectsToShare = [String(htmlEncodedString:  textToShare), myWebsite]
+        if let KeinexWebsite = NSURL(string: json["link"].string!) {
+            let objectsToShare = [String(htmlEncodedString:  textToShare), KeinexWebsite]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            activityVC.popoverPresentationController?.sourceView = self.view
+            activityVC.popoverPresentationController?.sourceRect = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height, width: 0, height: 0)
+                
             self.presentViewController(activityVC, animated: true, completion: nil)
         }
     }
