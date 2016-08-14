@@ -19,12 +19,12 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     @IBOutlet weak var VersionNumber: UILabel!    
     @IBOutlet weak var SourceLabel: UILabel!
     @IBOutlet weak var SourceUrl: UILabel!
-    
+    let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("Settings", comment: "")
-        let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
         SourceLabel.text = NSLocalizedString("Source:", comment: "")
         SourceUrl.text = SourceUrlText()
         SupportLabel.text = NSLocalizedString("Support", comment: "")
@@ -38,7 +38,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     }
     
     func SourceUrlText() -> String {
-        if lang == "ru_RU" {
+        if userDefaults.stringForKey(sourceUrl as String)! == sourceUrlKeinexRu {
             SourceUrl.text = "keinex.ru"
         } else {
             SourceUrl.text = "keinex.com"
@@ -46,11 +46,38 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         return SourceUrl.text!
     }
     
-    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if (indexPath.section == 0 && indexPath.row == 1) {
+        if (indexPath.section == 0 && indexPath.row == 0) {
+            let sourceSelector: UIAlertController = UIAlertController(title: NSLocalizedString("Select source", comment: ""), message: nil, preferredStyle: .ActionSheet)
+            
+            let cancelActionButton = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in
+            }
+            
+            let setKeinexComButton = UIAlertAction(title: "keinex.com", style: .Default) { action -> Void in
+                userDefaults.setObject(String(sourceUrlKeinexCom), forKey: sourceUrl as String)
+                self.SourceUrl.text = self.SourceUrlText()
+                NSNotificationCenter.defaultCenter().postNotificationName("ChangedSource", object: nil)
+            }
+            
+            let setKeinexRuButton = UIAlertAction(title: "keinex.ru", style: .Default) { action -> Void in
+                userDefaults.setObject(String(sourceUrlKeinexRu), forKey: sourceUrl as String)
+                self.SourceUrl.text = self.SourceUrlText()
+                NSNotificationCenter.defaultCenter().postNotificationName("ChangedSource", object: nil)
+            }
+            
+            sourceSelector.addAction(cancelActionButton)
+            sourceSelector.addAction(setKeinexComButton)
+            sourceSelector.addAction(setKeinexRuButton)
+            
+            if let popoverController = sourceSelector.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.frame.width / 2, y: self.SupportLabel.frame.height * 2, width: 0, height: 0)
+            }
+            self.presentViewController(sourceSelector, animated: true, completion: nil)
+
+        } else if (indexPath.section == 0 && indexPath.row == 1) {
             if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
@@ -72,10 +99,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         let device = UIDevice.currentDevice()
         let dictionary = NSBundle.mainBundle().infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
-        let build = dictionary["CFBundleVersion"] as! String
         
         var deviceInfo = "App Information:\r"
-        deviceInfo += "App Version: \(version) (\(build))\r\r"
+        deviceInfo += "App Version: \(version)\r\r"
         deviceInfo += "Device: \(deviceName())\r"
         deviceInfo += "iOS Version: \(device.systemVersion)\r"
         deviceInfo += "Timezone: \(NSTimeZone.localTimeZone().name) (\(NSTimeZone.localTimeZone().abbreviation!))\r\r"
@@ -91,7 +117,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             guard let value = element.value as? Int8 where value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
-        
         return identifier
     }
     

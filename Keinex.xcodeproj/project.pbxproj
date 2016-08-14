@@ -114,8 +114,9 @@
 		550E38C31D5670E7001B4E98 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				550E38C61D569398001B4E98 /* Settings */,
-				550E38C51D569386001B4E98 /* Latest news */,
+				550E38C61D569398001B4E98 /* SettingsVC */,
+				554E0ADC1D5F6B7A00C48195 /* PostVC */,
+				550E38C51D569386001B4E98 /* MainVC */,
 				7F8193B51B57659B0011A2E8 /* Main.storyboard */,
 				556B58091D566C1300ABBBCB /* Launch Screen.storyboard */,
 			);
@@ -134,22 +135,29 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
-		550E38C51D569386001B4E98 /* Latest news */ = {
+		550E38C51D569386001B4E98 /* MainVC */ = {
 			isa = PBXGroup;
 			children = (
-				7F8B1C481BAA710600EE94F9 /* SinglePostViewController.swift */,
 				7F8193D11B5770BD0011A2E8 /* LatestPostsTableViewController.swift */,
 				7F8193D31B5770DE0011A2E8 /* LatestPostsTableViewCell.swift */,
 			);
-			name = "Latest news";
+			name = MainVC;
 			sourceTree = "<group>";
 		};
-		550E38C61D569398001B4E98 /* Settings */ = {
+		550E38C61D569398001B4E98 /* SettingsVC */ = {
 			isa = PBXGroup;
 			children = (
 				550E38C71D5693B4001B4E98 /* SettingsViewController.swift */,
 			);
-			name = Settings;
+			name = SettingsVC;
+			sourceTree = "<group>";
+		};
+		554E0ADC1D5F6B7A00C48195 /* PostVC */ = {
+			isa = PBXGroup;
+			children = (
+				7F8B1C481BAA710600EE94F9 /* SinglePostViewController.swift */,
+			);
+			name = PostVC;
 			sourceTree = "<group>";
 		};
 		55A89C3A1D57A78300EBEC23 /* Localizations */ = {
@@ -183,10 +191,10 @@
 		7F8193AE1B57659B0011A2E8 /* Keinex */ = {
 			isa = PBXGroup;
 			children = (
+				550E38C21D5670CD001B4E98 /* Main */,
 				55A89C3A1D57A78300EBEC23 /* Localizations */,
 				550E38C41D568B46001B4E98 /* Helpers */,
 				550E38C31D5670E7001B4E98 /* UI */,
-				550E38C21D5670CD001B4E98 /* Main */,
 				7F8193B81B57659B0011A2E8 /* Images.xcassets */,
 				7F8193AF1B57659B0011A2E8 /* Supporting Files */,
 			);

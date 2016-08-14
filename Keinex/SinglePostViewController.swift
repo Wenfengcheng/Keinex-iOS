@@ -18,8 +18,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     lazy var postContent : UILabel = UILabel()
     lazy var postContentWeb : UIWebView = UIWebView()
     lazy var generalPadding : CGFloat = 10
-    
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,7 +52,6 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
             postTitle.text = String(htmlEncodedString:  title)
 
             self.scrollView.addSubview(postTitle)
-            
         }
         
         if let date = json["date"].string{
@@ -96,10 +94,10 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         }
         return CGFloat(wightValue)
     }
-    
+   
     func webViewDidFinishLoad(webView: UIWebView) {
     
-        postContentWeb.frame = CGRect(x: 10, y: (generalPadding * 4 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), width: self.view.frame.size.width - 20, height: postContentWeb.scrollView.contentSize.height + 70)
+        postContentWeb.frame = CGRect(x: 10, y: (generalPadding * 4 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), width: self.view.frame.size.width - 20, height: postContentWeb.scrollView.contentSize.height + 100)
         
         var finalHeight : CGFloat = 0
         self.scrollView.subviews.forEach { (subview) -> () in
@@ -109,7 +107,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         
         showCommentsButton()
     }
-    
+ 
     func showCommentsButton() {
         let commentsButton = UIButton(frame: CGRect(x: self.view.frame.size.width / wightValue(), y: self.view.frame.size.height / 3.15, width: 50, height: 50))
         let image = UIImage(named: "Messages.png")
@@ -155,12 +153,6 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
 
     // MARK: This method fires after all subviews have loaded
     override func viewDidLayoutSubviews() {
-        
-        var finalHeight : CGFloat = 0
-        self.scrollView.subviews.forEach { (subview) -> () in
-            finalHeight += subview.frame.height
-        }
-        self.scrollView.contentSize.height = finalHeight
     }
     
     override func didReceiveMemoryWarning() {

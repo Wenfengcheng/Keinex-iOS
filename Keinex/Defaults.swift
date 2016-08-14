@@ -11,5 +11,8 @@ import UIKit
 
 let userDefaults = NSUserDefaults.standardUserDefaults()
 let isiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
-let lang = NSLocale.currentLocale().localeIdentifier
 let latestPostValue = "postValue"
+let sourceUrl:NSString = "SourceUrlDefault"
+let sourceUrlKeinexRu:NSString = "https://keinex.ru/wp-json/wp/v2/posts/"
+let sourceUrlKeinexCom:NSString = "http://keinex.com/wp-json/wp/v2/posts/"
+

@@ -16,6 +16,7 @@ class LatestNewsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        postTitle.sizeToFit()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

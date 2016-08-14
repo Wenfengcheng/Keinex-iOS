@@ -11,25 +11,14 @@ import Alamofire
 
 class LatestNewsTableViewController: UITableViewController {
 
-    var latestNews: String = "http://keinex.com/wp-json/wp/v2/posts/"
     let parameters: [String:AnyObject] = ["filter[posts_per_page]" : 50]
     var json : JSON = JSON.null
-
-    func SourceUrl() -> String {
-        if lang == "ru_RU" {
-            latestNews = "https://keinex.ru/wp-json/wp/v2/posts/"
-        } else {
-            latestNews = "http://keinex.com/wp-json/wp/v2/posts/"
-        }
-        return latestNews
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.userInteractionEnabled = false
         
-        SourceUrl()
         getNews()
 
         self.title = NSLocalizedString("News", comment: "")
@@ -43,15 +32,19 @@ class LatestNewsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LatestNewsTableViewController.newNews(_:)), name: "ChangedSource", object: nil)
+
     }
     
-    func newNews() {
+    func newNews(notification:NSNotification) {
         getNews()
         self.tableView.reloadData()
         refreshControl?.endRefreshing()
     }
+    
 
     func getNews() {
+        let latestNews: String = userDefaults.stringForKey(sourceUrl as String)!
         Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
             guard let data = response.result.value else {
                 print("Request failed with error")
