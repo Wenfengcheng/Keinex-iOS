@@ -17,23 +17,21 @@ class LatestNewsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.userInteractionEnabled = false
-        
         getNews()
 
         self.title = NSLocalizedString("News", comment: "")
         tabBarController?.tabBar.items?[0].title = NSLocalizedString("News", comment: "")
         tabBarController?.tabBar.items?[1].title = NSLocalizedString("Settings", comment: "")
-        
+        tableView.userInteractionEnabled = false
+
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(LatestNewsTableViewController.newNews), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(newNews), forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
     }
     
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LatestNewsTableViewController.newNews(_:)), name: "ChangedSource", object: nil)
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newNews(_:)), name: "ChangedSource", object: nil)
     }
     
     func newNews(notification:NSNotification) {

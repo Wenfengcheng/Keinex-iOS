@@ -19,7 +19,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     @IBOutlet weak var VersionNumber: UILabel!    
     @IBOutlet weak var SourceLabel: UILabel!
     @IBOutlet weak var SourceUrl: UILabel!
-    let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +29,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         SupportLabel.text = NSLocalizedString("Support", comment: "")
         OurAppsLabel.text = NSLocalizedString("Our apps", comment: "")
         VersionLabel.text = NSLocalizedString("Version:", comment: "")
-        VersionNumber.text = version
+        VersionNumber.text = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
     }
     
     @IBAction func CloseButtonAction(sender: AnyObject) {
@@ -75,10 +74,11 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 popoverController.sourceView = self.view
                 popoverController.sourceRect = CGRect(x: self.view.frame.width / 2, y: self.SupportLabel.frame.height * 2, width: 0, height: 0)
             }
+            
             self.presentViewController(sourceSelector, animated: true, completion: nil)
 
         } else if (indexPath.section == 0 && indexPath.row == 1) {
-            if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding,allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
                 mc.navigationBar.barTintColor = UIColor.whiteColor()
@@ -90,8 +90,8 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 self.presentViewController(mc, animated: true, completion: nil)
             }
         } else if (indexPath.section == 0 && indexPath.row == 2) {
-                let openLink = NSURL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
-                UIApplication.sharedApplication().openURL(openLink!)
+            let openLink = NSURL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
+            UIApplication.sharedApplication().openURL(openLink!)
         }
     }
     

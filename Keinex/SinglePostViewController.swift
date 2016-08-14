@@ -80,11 +80,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(SinglePostViewController.ShareLink))
         self.navigationItem.rightBarButtonItem = shareButton
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        
-    }
-    
+
     func wightValue() -> CGFloat {
         var wightValue = 0.0
         if isiPad {
@@ -110,9 +106,8 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
  
     func showCommentsButton() {
         let commentsButton = UIButton(frame: CGRect(x: self.view.frame.size.width / wightValue(), y: self.view.frame.size.height / 3.15, width: 50, height: 50))
-        let image = UIImage(named: "Messages.png")
         commentsButton.backgroundColor = UIColor.mainColor()
-        commentsButton.setImage(image, forState: .Normal)
+        commentsButton.setImage(UIImage(named: "Messages.png"), forState: .Normal)
         commentsButton.layer.cornerRadius = 25
         commentsButton.layer.shadowOffset = CGSizeMake(1, 0)
         commentsButton.layer.shadowOpacity = 1.0
@@ -147,12 +142,6 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
                 
             self.presentViewController(activityVC, animated: true, completion: nil)
         }
-    }
-    
-    
-
-    // MARK: This method fires after all subviews have loaded
-    override func viewDidLayoutSubviews() {
     }
     
     override func didReceiveMemoryWarning() {

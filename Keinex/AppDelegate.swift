@@ -13,21 +13,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let lang = NSLocale.currentLocale().localeIdentifier
-    let standardDefaults = NSUserDefaults.standardUserDefaults()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
 
         if lang == "ru_RU" {
-            standardDefaults.registerDefaults([String(sourceUrl):sourceUrlKeinexRu])
+            userDefaults.registerDefaults([String(sourceUrl):sourceUrlKeinexRu])
         } else {
-            standardDefaults.registerDefaults([String(sourceUrl):sourceUrlKeinexCom])
+            userDefaults.registerDefaults([String(sourceUrl):sourceUrlKeinexCom])
         }
         return true
-    }
-    
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        print("DEVICE TOKEN = \(deviceToken)")        
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -44,7 +39,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
     }
-
-
 }
 
