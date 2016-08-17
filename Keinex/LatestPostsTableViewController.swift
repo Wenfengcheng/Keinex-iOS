@@ -11,14 +11,14 @@ import Alamofire
 
 class LatestNewsTableViewController: UITableViewController {
 
-    let parameters: [String:AnyObject] = ["filter[posts_per_page]" : 50]
+    var parameters: [String:AnyObject] = ["filter[posts_per_page]" : 10]
     var json : JSON = JSON.null
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getNews()
-
+        
         self.title = NSLocalizedString("News", comment: "")
         tabBarController?.tabBar.items?[0].title = NSLocalizedString("News", comment: "")
         tabBarController?.tabBar.items?[1].title = NSLocalizedString("Settings", comment: "")
@@ -33,7 +33,7 @@ class LatestNewsTableViewController: UITableViewController {
         self.tabBarController?.tabBar.hidden = false
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newNews(_:)), name: "ChangedSource", object: nil)
     }
-    
+
     func newNews(notification:NSNotification) {
         getNews()
         self.tableView.reloadData()
@@ -50,6 +50,7 @@ class LatestNewsTableViewController: UITableViewController {
             }
             self.json = JSON(data)
             self.tableView.userInteractionEnabled = true
+            self.loadMoreNews()
 
             //Check new post
             let latestPostTitle = userDefaults.stringForKey("postValue")
@@ -59,8 +60,23 @@ class LatestNewsTableViewController: UITableViewController {
                 print("Latest post is different")
                 userDefaults.setObject(String(self.json[0]["title"]["rendered"]), forKey: latestPostValue)
             }
-
             self.tableView.reloadData()
+        }
+    }
+    
+    func loadMoreNews() {
+        let latestNews: String = userDefaults.stringForKey(sourceUrl as String)!
+        let postCount:Float = userDefaults.floatForKey("postCount")
+
+        parameters = ["filter[posts_per_page]" : postCount]
+        print(postCount)
+        Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
+            guard let data = response.result.value else {
+            print("Request failed with error")
+            return
+        }
+        self.json = JSON(data)
+        self.tableView.reloadData()
         }
     }
     

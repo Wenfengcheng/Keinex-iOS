@@ -11,7 +11,7 @@ import UIKit
 import MessageUI
 import SafariServices
 
-class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
+class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var SupportLabel: UILabel!
     @IBOutlet weak var OurAppsLabel: UILabel!
@@ -45,6 +45,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         return SourceUrl.text!
     }
     
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
@@ -77,7 +78,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             
             self.presentViewController(sourceSelector, animated: true, completion: nil)
 
-        } else if (indexPath.section == 0 && indexPath.row == 1) {
+        } else if (indexPath.section == 1 && indexPath.row == 0) {
             if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding,allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
@@ -89,7 +90,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 mc.addAttachmentData(deviceInfo, mimeType: "text/plain", fileName: "device_information.txt")
                 self.presentViewController(mc, animated: true, completion: nil)
             }
-        } else if (indexPath.section == 0 && indexPath.row == 2) {
+        } else if (indexPath.section == 1 && indexPath.row == 1) {
             let openLink = NSURL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
             UIApplication.sharedApplication().openURL(openLink!)
         }
@@ -125,13 +126,27 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        if (section == 0) {
+            return 1
+        } else if (section == 1) {
+            return 3
+        } else {
+            return 0
+        }
     }
     
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if (section == 0) {
+            return NSLocalizedString("Reading", comment: "")
+        } else {
+            return NSLocalizedString("Other", comment: "")
+        }
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
