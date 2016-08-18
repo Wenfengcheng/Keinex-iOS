@@ -57,7 +57,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
             self.scrollView.addSubview(postTitle)
         }
         
-        if let date = json["date"].string{
+        if let date = json["date"].string {
             
             postTime.frame = CGRect(x: 0, y: (generalPadding * 3 + postTitle.frame.height + featuredImage.frame.height), width: self.view.frame.size.width, height: 20)
             postTime.textColor = UIColor.grayColor()
@@ -68,7 +68,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
             self.scrollView.addSubview(postTime)
         }
         
-        if let content = json["content"]["rendered"].string{
+        if let content = json["content"]["rendered"].string {
     
             let webContent : String = "<!DOCTYPE HTML><html><head><title></title><link rel='stylesheet' href='appStyles.css'></head><body>" + content + "</body></html>"
             let mainbundle = NSBundle.mainBundle().bundlePath
@@ -127,6 +127,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
     func commentsButtonAction(sender: UIButton!) {
         let CommentsVC : ArticleCommentsVC = storyboard!.instantiateViewControllerWithIdentifier("ArticleCommentsVC") as! ArticleCommentsVC
         CommentsVC.indexRow = indexRow
+        CommentsVC.PostID = self.json["id"].int!
         self.navigationController?.pushViewController(CommentsVC, animated: true)
 
     }

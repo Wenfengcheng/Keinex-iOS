@@ -12,10 +12,14 @@ import Alamofire
 
 class ArticleSendComment: UIViewController, UITextViewDelegate {
     
+    @IBOutlet weak var SendCommentButton: UIButton!
     @IBOutlet weak var NameTextField: UITextField!
     @IBOutlet weak var EmailTextField: UITextField!
-    @IBOutlet weak var WebsiteTextField: UITextField!
     @IBOutlet weak var CommentText: UITextView!
+    
+    @IBOutlet weak var NameLabel: UILabel!
+    @IBOutlet weak var EmailLabel: UILabel!
+    
     
     lazy var jsonForComments: JSON = JSON.null
     lazy var postID : Int = Int()
@@ -23,10 +27,24 @@ class ArticleSendComment: UIViewController, UITextViewDelegate {
     var activityIndicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
-        
+        CommentText.layer.cornerRadius = 5
+        SendCommentButton.layer.cornerRadius = 5
+        placeholderLabelText()
+        Localizable()
+    }
+    
+    func Localizable() {
+        SendCommentButton.setTitle(NSLocalizedString("Send", comment: ""), forState: .Normal)
+        NameTextField.placeholder = NSLocalizedString("Enter your name", comment: "")
+        EmailTextField.placeholder = NSLocalizedString("Enter your email", comment: "")
+        NameLabel.text = NSLocalizedString("Your name:", comment: "")
+        EmailLabel.text = NSLocalizedString("Your Email", comment: "")
+    }
+    
+    func placeholderLabelText() {
         CommentText.delegate = self
         placeholderLabel = UILabel()
-        placeholderLabel.text = "Enter comment"
+        placeholderLabel.text = NSLocalizedString("Enter comment", comment: "")
         placeholderLabel.sizeToFit()
         CommentText.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPointMake(5, CommentText.font!.pointSize / 2)
@@ -37,34 +55,49 @@ class ArticleSendComment: UIViewController, UITextViewDelegate {
     func textViewDidChange(textView: UITextView) {
         placeholderLabel.hidden = !textView.text.isEmpty
     }
-
-    func getComments() {
+    
+    func activityIndicatorView() {
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.center = self.view.center
         activityIndicator.startAnimating()
+    }
+
+    func getComments() {
         
         let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
         visualEffectView.frame = (self.navigationController?.view.bounds)!
         visualEffectView.hidden = false
-        self.navigationController?.view.addSubview(visualEffectView)
-        self.navigationController?.view.addSubview(activityIndicator)
+
+        activityIndicatorView()
         self.view.userInteractionEnabled = false
         
-        let latestCommentsOriginal: String = userDefaults.stringForKey(sourceUrl as String)!
-        var latestComments = String(latestCommentsOriginal.characters.dropLast(21))
-        latestComments.appendContentsOf("/?json=1")
+        self.navigationController?.view.addSubview(visualEffectView)
+        self.navigationController?.view.addSubview(activityIndicator)
         
-        var requestString = "http://keinex.com/api/?json=submit_comment&post_id=\(postID)&name=\(NameTextField.text!)&email=\(EmailTextField.text!)&content=\(CommentText.text)"
+        let latestCommentsOriginal: String = userDefaults.stringForKey(sourceUrl as String)!
+        let latestComments = String(latestCommentsOriginal.characters.dropLast(21))
+        
+        var requestString = "\(latestComments)/api/?json=submit_comment&post_id=\(postID)&name=\(NameTextField.text!)&email=\(EmailTextField.text!)&content=\(CommentText.text)"
         requestString = requestString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+        
+        //http://keinex.com/api/?json=submit_comment&post_id=3354&name=ASdad%20&email=adasdad@asdsad.co&content=Sasdad%20
+        
+        //https://keinex.ru/api/?json=submit_comment&post_id=12606&name=asdasd&email=asdads@xczxc.com&content=ASdasdasd.%20
         
         Alamofire.request(.POST, requestString, parameters: nil).response {
             request, response, data, error in
-                visualEffectView.hidden = true
-                self.view.userInteractionEnabled = true
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.removeFromSuperview()
-                self.navigationController?.popViewControllerAnimated(true)
+            
+            print(request)
+            print(response)
+            print(error)
+            
+            visualEffectView.hidden = true
+            self.view.userInteractionEnabled = true
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.removeFromSuperview()
+            self.navigationController?.popViewControllerAnimated(true)
+            NSNotificationCenter.defaultCenter().postNotificationName("CommentSended", object: nil)
         }
     }
     
@@ -72,18 +105,16 @@ class ArticleSendComment: UIViewController, UITextViewDelegate {
          if NameTextField.text! != "" && validateEmail(EmailTextField.text!) != false && CommentText.text! != "" {
             getComments()
          } else {
-            let alert = UIAlertController(title: "Error", message: "Enter text in all required fields", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Enter text in all required fields", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
     func validateEmail(enteredEmail:String) -> Bool {
-        
         let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
         return emailPredicate.evaluateWithObject(enteredEmail)
-        
     }
 }
 

@@ -16,9 +16,7 @@ let sourceUrl:NSString = "SourceUrlDefault"
 
 //Keinex.ru
 let sourceUrlKeinexRu:NSString = "https://keinex.ru/wp-json/wp/v2/posts/"
-let sourceUrlKeinexRuComments:NSString = "https://keinex.ru/?json=1"
 
 //Keinex.com
 let sourceUrlKeinexCom:NSString = "http://keinex.com/wp-json/wp/v2/posts/"
-let sourceUrlKeinexComComments:NSString = "http://keinex.com/?json=1"
 

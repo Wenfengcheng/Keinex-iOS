@@ -13,6 +13,7 @@ class ArticleCommentsVC: UITableViewController {
     
     lazy var jsonForComments: JSON = JSON.null
     lazy var indexRow : Int = Int()
+    lazy var PostID : Int = Int()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,13 @@ class ArticleCommentsVC: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newComments(_:)), name: "ChangedSource", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(successAlert(_:)), name: "CommentSended", object: nil)
+    }
+    
+    func successAlert(notification: NSNotification) {
+        let alert = UIAlertController(title: NSLocalizedString("Successfully", comment: ""), message: NSLocalizedString("Your comment has been sent to moderation", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func newComments(notification:NSNotification) {
@@ -41,6 +49,7 @@ class ArticleCommentsVC: UITableViewController {
         let latestCommentsOriginal: String = userDefaults.stringForKey(sourceUrl as String)!
         var latestComments = String(latestCommentsOriginal.characters.dropLast(21))
         latestComments.appendContentsOf("/?json=1")
+        //latestComments.appendContentsOf("/api/get_post/?post_id=\(PostID)")
         
         Alamofire.request(.GET, latestComments).responseJSON { response in
             guard let data = response.result.value else {
@@ -73,7 +82,7 @@ class ArticleCommentsVC: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let commentsCount = self.jsonForComments["posts"][self.indexRow]["comment_count"].int
-
+  
         switch self.jsonForComments.type {
         case Type.Dictionary:
             return Int(commentsCount!)

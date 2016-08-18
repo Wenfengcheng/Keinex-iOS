@@ -61,7 +61,7 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      language = "en"
+      language = "ru"
       region = "US">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">

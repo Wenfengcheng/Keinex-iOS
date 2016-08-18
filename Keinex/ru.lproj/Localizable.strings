@@ -6,14 +6,25 @@
   Copyright © 2016 Keinex. All rights reserved.
 */
 
-"Loading..."            = "Загрузка...";
-"News"                  = "Новости";
-"Settings"              = "Настройки";
-"Support"               = "Поддержка";
-"Our apps"              = "Наши приложения";
-"Version:"              = "Версия:";
-"Source:"               = "Источник:";
-"Select source"         = "Выбрать источник";
-"Reading"               = "Чтение";
-"Other"                 = "Другое";
-"Comments"              = "Комментарии";
+"Loading..."                                            = "Загрузка...";
+"News"                                                  = "Новости";
+"Settings"                                              = "Настройки";
+"Support"                                               = "Поддержка";
+"Our apps"                                              = "Наши приложения";
+"Version:"                                              = "Версия:";
+"Source:"                                               = "Источник:";
+"Select source"                                         = "Выбрать источник";
+"Reading"                                               = "Чтение";
+"Other"                                                 = "Другое";
+"Comments"                                              = "Комментарии";
+"Enter comment"                                         = "Введите комментарий";
+"Send"                                                  = "Отправить";
+"Enter your name"                                       = "Введите ваше имя (ник)";
+"Enter your email"                                      = "Введите ваш email";
+"Your name:"                                            = "Ваше имя (ник):";
+"Your Email"                                            = "Ваш Email";
+"Successfully"                                          = "Успешно";
+"Your comment has been sent to moderation"              = "Ваш комментарий отправлен на модерацию";
+"Error"                                                 = "Ошибка";
+"Ok"                                                    = "Ок";
+"Enter text in all required fields"                     = "Введите текст во все необходимые поля";

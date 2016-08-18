@@ -6,14 +6,25 @@
   Copyright © 2016 Keinex. All rights reserved.
 */
 
-"Loading..."            = "Loading...";
-"News"                  = "News";
-"Settings"              = "Settings";
-"Support"               = "Support";
-"Our apps"              = "Our apps";
-"Version:"              = "Version:";
-"Source:"               = "Source:";
-"Select source"         = "Select source";
-"Reading"               = "Reading";
-"Other"                 = "Other";
-"Comments"              = "Comments";
+"Loading..."                                            = "Loading...";
+"News"                                                  = "News";
+"Settings"                                              = "Settings";
+"Support"                                               = "Support";
+"Our apps"                                              = "Our apps";
+"Version:"                                              = "Version:";
+"Source:"                                               = "Source:";
+"Select source"                                         = "Select source";
+"Reading"                                               = "Reading";
+"Other"                                                 = "Other";
+"Comments"                                              = "Comments";
+"Enter comment"                                         = "Enter comment";
+"Send"                                                  = "Send";
+"Enter your name"                                       = "Enter your name";
+"Enter your email"                                      = "Enter your email";
+"Your name:"                                            = "Your name:";
+"Your Email"                                            = "Your Email";
+"Successfully"                                          = "Successfully";
+"Your comment has been sent to moderation"              = "Your comment has been sent to moderation";
+"Error"                                                 = "Error";
+"Ok"                                                    = "Ok";
+"Enter text in all required fields"                     = "Enter text in all required fields";
