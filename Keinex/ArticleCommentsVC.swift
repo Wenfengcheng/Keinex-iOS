@@ -14,7 +14,7 @@ class ArticleCommentsVC: UITableViewController {
     lazy var jsonForComments: JSON = JSON.null
     lazy var indexRow : Int = Int()
     lazy var PostID : Int = Int()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,12 +62,20 @@ class ArticleCommentsVC: UITableViewController {
             let addCommentButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(ArticleCommentsVC.addCommentButtonAction))
             self.navigationItem.rightBarButtonItem = addCommentButton
             
-            
+            if self.jsonForComments["post"]["comment_count"].int == 0 {
+                let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+                label.center.y = self.view.center.y - (self.view.frame.height / 4)
+                label.center.x = self.view.center.x
+                label.textAlignment = .Center
+                label.text = NSLocalizedString("No comments", comment: "")
+                self.tableView.separatorColor = UIColor.clearColor()
+                self.view.addSubview(label)
+            }
         }
     }
     
     func addCommentButtonAction(sender: UIButton!) {
-        let SendCommentVC : ArticleSendComment = storyboard!.instantiateViewControllerWithIdentifier("ArticleSendComment") as! ArticleSendComment
+        let SendCommentVC = storyboard!.instantiateViewControllerWithIdentifier("ArticleSendComment") as! ArticleSendComment
         SendCommentVC.postID = PostID
         self.navigationController?.pushViewController(SendCommentVC, animated: true)
     }
