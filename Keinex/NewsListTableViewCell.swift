@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LatestNewsTableViewCell: UITableViewCell {
+class NewsListTableViewCell: UITableViewCell {
     
     @IBOutlet weak var postTitle: UILabel!
     @IBOutlet weak var postDate: UILabel!

@@ -1,5 +1,5 @@
 //
-//  SinglePostViewController.swift
+//  ArticleVC.swift
 //  Keinex
 //
 //  Created by Андрей on 9/16/15.
@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Alamofire
 
-class SinglePostViewController: UIViewController, UIWebViewDelegate {
+class ArticleVC: UIViewController, UIWebViewDelegate {
 
     lazy var json : JSON = JSON.null
+    lazy var jsonForComments: JSON = JSON.null
     lazy var scrollView : UIScrollView = UIScrollView()
     lazy var postTitle : UILabel = UILabel()
     lazy var featuredImage : UIImageView = UIImageView()
@@ -18,6 +20,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     lazy var postContent : UILabel = UILabel()
     lazy var postContentWeb : UIWebView = UIWebView()
     lazy var generalPadding : CGFloat = 10
+    lazy var indexRow : Int = Int()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +28,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
         scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         scrollView.showsHorizontalScrollIndicator = false
         self.view.addSubview(scrollView)
-        
+                
         if let featured = json["better_featured_image"]["source_url"].string{
             
             featuredImage.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height / 3)
@@ -77,7 +80,7 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
             self.scrollView.addSubview(postContentWeb)
         }
         
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(SinglePostViewController.ShareLink))
+        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ArticleVC.ShareLink))
         self.navigationItem.rightBarButtonItem = shareButton
     }
 
@@ -122,13 +125,10 @@ class SinglePostViewController: UIViewController, UIWebViewDelegate {
     }
     
     func commentsButtonAction(sender: UIButton!) {
-        if #available(iOS 9.0, *) {
-            let csvc = CustomSafariViewContoller(URL: NSURL(string: json["link"].string! + "#respond")!, entersReaderIfAvailable: false)
-            csvc.view.tintColor = UIColor.mainColor()
-            self.presentViewController(csvc, animated: true, completion: nil)
-        } else {
-            UIApplication.sharedApplication().openURL(NSURL(string : json["link"].string! + "#respond")!)
-        }
+        let CommentsVC : ArticleCommentsVC = storyboard!.instantiateViewControllerWithIdentifier("ArticleCommentsVC") as! ArticleCommentsVC
+        CommentsVC.indexRow = indexRow
+        self.navigationController?.pushViewController(CommentsVC, animated: true)
+
     }
     
     func ShareLink() {

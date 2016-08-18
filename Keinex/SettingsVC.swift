@@ -11,7 +11,7 @@ import UIKit
 import MessageUI
 import SafariServices
 
-class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate, UITextFieldDelegate {
+class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
 
     @IBOutlet weak var SupportLabel: UILabel!
     @IBOutlet weak var OurAppsLabel: UILabel!

@@ -20,8 +20,6 @@ class LatestNewsTableViewController: UITableViewController {
         getNews()
         
         self.title = NSLocalizedString("News", comment: "")
-        tabBarController?.tabBar.items?[0].title = NSLocalizedString("News", comment: "")
-        tabBarController?.tabBar.items?[1].title = NSLocalizedString("Settings", comment: "")
         tableView.userInteractionEnabled = false
 
         let refreshControl = UIRefreshControl()
@@ -30,7 +28,6 @@ class LatestNewsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.tabBar.hidden = false
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newNews(_:)), name: "ChangedSource", object: nil)
     }
 
@@ -69,7 +66,6 @@ class LatestNewsTableViewController: UITableViewController {
         let postCount:Float = userDefaults.floatForKey("postCount")
 
         parameters = ["filter[posts_per_page]" : postCount]
-        print(postCount)
         Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
             guard let data = response.result.value else {
             print("Request failed with error")
@@ -101,7 +97,7 @@ class LatestNewsTableViewController: UITableViewController {
     
     // MARK: Load cells data from site
     
-    func populateFields(cell: LatestNewsTableViewCell, index: Int){
+    func populateFields(cell: NewsListTableViewCell, index: Int){
         
         guard let title = self.json[index]["title"]["rendered"].string else{
             cell.postTitle!.text = NSLocalizedString("Loading...", comment: "")
@@ -129,7 +125,7 @@ class LatestNewsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! LatestNewsTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! NewsListTableViewCell
 
         populateFields(cell, index: indexPath.row)
 
@@ -138,13 +134,12 @@ class LatestNewsTableViewController: UITableViewController {
     
     // MARK: - Navigation
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let singlePostVC : SinglePostViewController = storyboard!.instantiateViewControllerWithIdentifier("SinglePostViewController") as! SinglePostViewController
-        singlePostVC.json = self.json[indexPath.row]
-        self.tabBarController?.tabBar.hidden = true
-        self.navigationController?.pushViewController(singlePostVC, animated: true)
+        let PostVC : ArticleVC = storyboard!.instantiateViewControllerWithIdentifier("ArticleVC") as! ArticleVC
+        PostVC.json = self.json[indexPath.row]
+        PostVC.indexRow = indexPath.row;
+        self.navigationController?.pushViewController(PostVC, animated: true)
     }
 }
-
 
 extension String {
     init(htmlEncodedString: String) {
