@@ -81,10 +81,6 @@ class ArticleSendComment: UIViewController, UITextViewDelegate {
         var requestString = "\(latestComments)/api/?json=submit_comment&post_id=\(postID)&name=\(NameTextField.text!)&email=\(EmailTextField.text!)&content=\(CommentText.text)"
         requestString = requestString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         
-        //http://keinex.com/api/?json=submit_comment&post_id=3354&name=ASdad%20&email=adasdad@asdsad.co&content=Sasdad%20
-        
-        //https://keinex.ru/api/?json=submit_comment&post_id=12606&name=asdasd&email=asdads@xczxc.com&content=ASdasdasd.%20
-        
         Alamofire.request(.POST, requestString, parameters: nil).response {
             request, response, data, error in
             

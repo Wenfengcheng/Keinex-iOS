@@ -48,8 +48,8 @@ class ArticleCommentsVC: UITableViewController {
     func getComments() {
         let latestCommentsOriginal: String = userDefaults.stringForKey(sourceUrl as String)!
         var latestComments = String(latestCommentsOriginal.characters.dropLast(21))
-        latestComments.appendContentsOf("/?json=1")
-        //latestComments.appendContentsOf("/api/get_post/?post_id=\(PostID)")
+        //latestComments.appendContentsOf("/?json=1")
+        latestComments.appendContentsOf("/api/get_post/?post_id=\(PostID)")
         
         Alamofire.request(.GET, latestComments).responseJSON { response in
             guard let data = response.result.value else {
@@ -61,13 +61,14 @@ class ArticleCommentsVC: UITableViewController {
             self.tableView.reloadData()
             let addCommentButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(ArticleCommentsVC.addCommentButtonAction))
             self.navigationItem.rightBarButtonItem = addCommentButton
+            
+            
         }
     }
     
     func addCommentButtonAction(sender: UIButton!) {
-        let postID = self.jsonForComments["posts"][self.indexRow]["id"].int
         let SendCommentVC : ArticleSendComment = storyboard!.instantiateViewControllerWithIdentifier("ArticleSendComment") as! ArticleSendComment
-        SendCommentVC.postID = postID!
+        SendCommentVC.postID = PostID
         self.navigationController?.pushViewController(SendCommentVC, animated: true)
     }
     
@@ -81,11 +82,11 @@ class ArticleCommentsVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let commentsCount = self.jsonForComments["posts"][self.indexRow]["comment_count"].int
+        let commentsCount = self.jsonForComments["post"]["comment_count"].int
   
         switch self.jsonForComments.type {
         case Type.Dictionary:
-            return Int(commentsCount!)
+            return commentsCount!
         default:
             return 1
         }
@@ -95,21 +96,21 @@ class ArticleCommentsVC: UITableViewController {
     
     func populateFields(cell: ArticleCommentsCell, index: Int){
         
-        guard let commentsContents = self.jsonForComments["posts"][self.indexRow]["comments"][index]["content"].string else {
+        guard let commentsContents = self.jsonForComments["post"]["comments"][index]["content"].string else {
             cell.commentsContent!.text = NSLocalizedString("Loading...", comment: "")
             return
         }
         
         cell.commentsContent.text = String(htmlEncodedString: String(commentsContents))
 
-        guard let commentsName = self.jsonForComments["posts"][self.indexRow]["comments"][index]["name"].string else {
+        guard let commentsName = self.jsonForComments["post"]["comments"][index]["name"].string else {
             cell.commentsName!.text = NSLocalizedString("--", comment: "")
             return
         }
         
         cell.commentsName.text = String(htmlEncodedString: String(commentsName))
         
-        guard let commentsDate = self.jsonForComments["posts"][self.indexRow]["comments"][index]["date"].string else {
+        guard let commentsDate = self.jsonForComments["post"]["comments"][index]["date"].string else {
             cell.commentsDate!.text = NSLocalizedString("--", comment: "")
             return
         }
