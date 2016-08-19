@@ -52,7 +52,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
             postTitle.adjustsFontSizeToFitWidth = true
             postTitle.baselineAdjustment = .AlignCenters
             postTitle.minimumScaleFactor = 0.5
-            postTitle.text = String(htmlEncodedString:  title)
+            postTitle.text = String(encodedString:  title)
 
             self.scrollView.addSubview(postTitle)
         }
@@ -136,7 +136,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
         let textToShare = json["title"]["rendered"].string! + " "
         
         if let KeinexWebsite = NSURL(string: json["link"].string!) {
-            let objectsToShare = [String(htmlEncodedString:  textToShare), KeinexWebsite]
+            let objectsToShare = [String(encodedString:  textToShare), KeinexWebsite]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             activityVC.popoverPresentationController?.sourceView = self.view
             activityVC.popoverPresentationController?.sourceRect = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height, width: 0, height: 0)

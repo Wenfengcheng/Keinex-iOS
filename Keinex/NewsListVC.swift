@@ -104,7 +104,7 @@ class LatestNewsTableViewController: UITableViewController {
             return
         }
         
-        cell.postTitle!.text = String(htmlEncodedString: title)
+        cell.postTitle!.text = String(encodedString: title)
         
         guard let date = self.json[index]["date"].string else {
             cell.postDate!.text = "--"
@@ -113,7 +113,7 @@ class LatestNewsTableViewController: UITableViewController {
 
         cell.postDate!.text = date.stringByReplacingOccurrencesOfString("T", withString: " ", options: NSStringCompareOptions.LiteralSearch, range: nil)
         
-        guard let image = self.json[index]["better_featured_image"]["source_url"].string where
+        guard let image = self.json[index]["better_featured_image"]["media_details"]["sizes"]["themo_blog_standard"]["source_url"].string where
         image != "null" else {
             print("Image didn't load")
             return
@@ -142,9 +142,9 @@ class LatestNewsTableViewController: UITableViewController {
 }
 
 extension String {
-    init(htmlEncodedString: String) {
+    init(encodedString: String) {
         do {
-            let encodedData = htmlEncodedString.dataUsingEncoding(NSUTF8StringEncoding)!
+            let encodedData = encodedString.dataUsingEncoding(NSUTF8StringEncoding)!
             let attributedOptions : [String: AnyObject] = [
                 NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                 NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding

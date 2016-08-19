@@ -11,7 +11,7 @@ import Alamofire
 
 class ArticleCommentsVC: UITableViewController {
     
-    lazy var jsonForComments: JSON = JSON.null
+    lazy var json: JSON = JSON.null
     lazy var indexRow : Int = Int()
     lazy var PostID : Int = Int()
     
@@ -56,20 +56,20 @@ class ArticleCommentsVC: UITableViewController {
                 print("Request failed with error")
                 return
             }
-            self.jsonForComments = JSON(data)
+            self.json = JSON(data)
             self.tableView.userInteractionEnabled = true
             self.tableView.reloadData()
             let addCommentButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(ArticleCommentsVC.addCommentButtonAction))
             self.navigationItem.rightBarButtonItem = addCommentButton
             
-            if self.jsonForComments["post"]["comment_count"].int == 0 {
-                let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
-                label.center.y = self.view.center.y - (self.view.frame.height / 4)
-                label.center.x = self.view.center.x
-                label.textAlignment = .Center
-                label.text = NSLocalizedString("No comments", comment: "")
+            if self.json["post"]["comment_count"].int == 0 {
+                let noCommentsLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
+                noCommentsLabel.center.y = self.view.center.y - (self.view.frame.height / 4)
+                noCommentsLabel.center.x = self.view.center.x
+                noCommentsLabel.textAlignment = .Center
+                noCommentsLabel.text = NSLocalizedString("No comments", comment: "")
                 self.tableView.separatorColor = UIColor.clearColor()
-                self.view.addSubview(label)
+                self.view.addSubview(noCommentsLabel)
             }
         }
     }
@@ -90,9 +90,9 @@ class ArticleCommentsVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let commentsCount = self.jsonForComments["post"]["comment_count"].int
+        let commentsCount = self.json["post"]["comment_count"].int
   
-        switch self.jsonForComments.type {
+        switch self.json.type {
         case Type.Dictionary:
             return commentsCount!
         default:
@@ -104,26 +104,27 @@ class ArticleCommentsVC: UITableViewController {
     
     func populateFields(cell: ArticleCommentsCell, index: Int){
         
-        guard let commentsContents = self.jsonForComments["post"]["comments"][index]["content"].string else {
+        guard let commentsContents = self.json["post"]["comments"][index]["content"].string else {
             cell.commentsContent!.text = NSLocalizedString("Loading...", comment: "")
             return
         }
         
-        cell.commentsContent.text = String(htmlEncodedString: String(commentsContents))
+        cell.commentsContent.text = String(encodedString: String(commentsContents))
 
-        guard let commentsName = self.jsonForComments["post"]["comments"][index]["name"].string else {
+        guard let commentsName = self.json["post"]["comments"][index]["name"].string else {
             cell.commentsName!.text = NSLocalizedString("--", comment: "")
             return
         }
         
-        cell.commentsName.text = String(htmlEncodedString: String(commentsName))
+        cell.commentsName.text = String(encodedString: String(commentsName))
         
-        guard let commentsDate = self.jsonForComments["post"]["comments"][index]["date"].string else {
+        guard let commentsDate = self.json["post"]["comments"][index]["date"].string else {
             cell.commentsDate!.text = NSLocalizedString("--", comment: "")
             return
         }
         
-        cell.commentsDate.text = String(htmlEncodedString: String(commentsDate))
+        cell.commentsDate.text = String(encodedString: String(commentsDate))
+ 
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

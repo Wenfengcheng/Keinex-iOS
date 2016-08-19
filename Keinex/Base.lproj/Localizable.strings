@@ -22,10 +22,11 @@
 "Enter your name"                                       = "Enter your name";
 "Enter your email"                                      = "Enter your email";
 "Your name:"                                            = "Your name:";
-"Your Email"                                            = "Your Email";
+"Your Email:"                                           = "Your Email:";
 "Successfully"                                          = "Successfully";
 "Your comment has been sent to moderation"              = "Your comment has been sent to moderation";
 "Error"                                                 = "Error";
 "Ok"                                                    = "Ok";
 "Enter text in all required fields"                     = "Enter text in all required fields";
 "No comments"                                           = "No comments";
+"Sending.."                                             = "Sending..";
