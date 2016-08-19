@@ -8,18 +8,17 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
 class ArticleVC: UIViewController, UIWebViewDelegate {
 
     lazy var json : JSON = JSON.null
-    lazy var jsonForComments: JSON = JSON.null
     lazy var scrollView : UIScrollView = UIScrollView()
     lazy var postTitle : UILabel = UILabel()
     lazy var featuredImage : UIImageView = UIImageView()
     lazy var postTime : UILabel = UILabel()
     lazy var postContent : UILabel = UILabel()
     lazy var postContentWeb : UIWebView = UIWebView()
-    lazy var generalPadding : CGFloat = 10
     lazy var indexRow : Int = Int()
         
     override func viewDidLoad() {
@@ -44,7 +43,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
         
         if let title = json["title"]["rendered"].string {
             
-            postTitle.frame = CGRect(x: 10, y: (generalPadding * 2 + featuredImage.frame.height), width:self.view.frame.size.width - 20, height: 50)
+            postTitle.frame = CGRect(x: 10, y: (20 + featuredImage.frame.height), width:self.view.frame.size.width - 20, height: 50)
             postTitle.textColor = UIColor.mainColor()
             postTitle.textAlignment = NSTextAlignment.Center
             postTitle.font = UIFont.systemFontOfSize(24.0)
@@ -59,7 +58,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
         
         if let date = json["date"].string {
             
-            postTime.frame = CGRect(x: 0, y: (generalPadding * 3 + postTitle.frame.height + featuredImage.frame.height), width: self.view.frame.size.width, height: 20)
+            postTime.frame = CGRect(x: 0, y: (30 + postTitle.frame.height + featuredImage.frame.height), width: self.view.frame.size.width, height: 20)
             postTime.textColor = UIColor.grayColor()
             postTime.font = UIFont(name: postTime.font.fontName, size: 12)
             postTime.textAlignment = NSTextAlignment.Center
@@ -75,7 +74,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
             let bundleURL = NSURL(fileURLWithPath: mainbundle)
             
             postContentWeb.loadHTMLString(webContent, baseURL: bundleURL)
-            postContentWeb.frame = CGRect(x: 10, y: (generalPadding * 3 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), width: self.view.frame.size.width - 20, height: 10)
+            postContentWeb.frame = CGRect(x: 10, y: (30 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), width: self.view.frame.size.width - 20, height: 10)
             postContentWeb.delegate = self
             self.scrollView.addSubview(postContentWeb)
         }
@@ -96,7 +95,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
    
     func webViewDidFinishLoad(webView: UIWebView) {
     
-        postContentWeb.frame = CGRect(x: 10, y: (generalPadding * 4 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), width: self.view.frame.size.width - 20, height: postContentWeb.scrollView.contentSize.height + 100)
+        postContentWeb.frame = CGRect(x: 10, y: (40 + postTitle.frame.height + featuredImage.frame.height + postTime.frame.height), width: self.view.frame.size.width - 20, height: postContentWeb.scrollView.contentSize.height + 100)
         
         var finalHeight : CGFloat = 0
         self.scrollView.subviews.forEach { (subview) -> () in
@@ -129,7 +128,6 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
         CommentsVC.indexRow = indexRow
         CommentsVC.PostID = self.json["id"].int!
         self.navigationController?.pushViewController(CommentsVC, animated: true)
-
     }
     
     func ShareLink() {

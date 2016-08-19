@@ -82,7 +82,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding,allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
-                mc.navigationBar.barTintColor = UIColor.whiteColor()
                 mc.navigationBar.tintColor = UIColor.mainColor()
                 mc.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.mainColor()]
                 mc.setToRecipients(["info@keinex.info"])
@@ -101,8 +100,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         let dictionary = NSBundle.mainBundle().infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
         
-        var deviceInfo = "App Information:\r"
-        deviceInfo += "App Version: \(version)\r\r"
+        var deviceInfo = "App Version: \(version)\r\r"
         deviceInfo += "Device: \(deviceName())\r"
         deviceInfo += "iOS Version: \(device.systemVersion)\r"
         deviceInfo += "Timezone: \(NSTimeZone.localTimeZone().name) (\(NSTimeZone.localTimeZone().abbreviation!))\r\r"

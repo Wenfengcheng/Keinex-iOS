@@ -18,9 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
 
         if lang == "ru_RU" {
-            userDefaults.registerDefaults([String(sourceUrl):sourceUrlKeinexRu, "postCount": 50])
+            userDefaults.registerDefaults([String(sourceUrl):sourceUrlKeinexRu])
         } else {
-            userDefaults.registerDefaults([String(sourceUrl):sourceUrlKeinexCom, "postCount": 50])
+            userDefaults.registerDefaults([String(sourceUrl):sourceUrlKeinexCom])
         }
         return true
     }

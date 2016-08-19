@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
 class LatestNewsTableViewController: UITableViewController {
 
@@ -63,9 +64,8 @@ class LatestNewsTableViewController: UITableViewController {
     
     func loadMoreNews() {
         let latestNews: String = userDefaults.stringForKey(sourceUrl as String)!
-        let postCount:Float = userDefaults.floatForKey("postCount")
 
-        parameters = ["filter[posts_per_page]" : postCount]
+        parameters = ["filter[posts_per_page]" : 50]
         Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
             guard let data = response.result.value else {
             print("Request failed with error")
