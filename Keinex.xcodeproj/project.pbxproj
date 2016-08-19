@@ -17,7 +17,6 @@
 		55E77BEE1D65A5A30094AE65 /* ArticleCommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77BED1D65A5A30094AE65 /* ArticleCommentsTableViewCell.swift */; };
 		55E77BF01D65C1140094AE65 /* ArticleSendComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77BEF1D65C1140094AE65 /* ArticleSendComment.swift */; };
 		55F6CF351D67250C0067A37A /* LocalizeEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F6CF341D67250C0067A37A /* LocalizeEngine.swift */; };
-		55F6CF371D673C950067A37A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 55F6CF361D673C950067A37A /* README.md */; };
 		7F1121421BAB5DC800FC8B48 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1121411BAB5DC800FC8B48 /* ImageLoader.swift */; };
 		7F8193B21B57659B0011A2E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8193B11B57659B0011A2E8 /* AppDelegate.swift */; };
 		7F8193B71B57659B0011A2E8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F8193B51B57659B0011A2E8 /* Main.storyboard */; };
@@ -400,7 +399,6 @@
 				7F8B1C491BAA710600EE94F9 /* ArticleVC.swift in Sources */,
 				55F6CF351D67250C0067A37A /* LocalizeEngine.swift in Sources */,
 				552157531D574C87001C50EB /* Colors.swift in Sources */,
-				55F6CF371D673C950067A37A /* README.md in Sources */,
 				7F8193B21B57659B0011A2E8 /* AppDelegate.swift in Sources */,
 				550E38C81D5693B4001B4E98 /* SettingsVC.swift in Sources */,
 				55E77BF01D65C1140094AE65 /* ArticleSendComment.swift in Sources */,

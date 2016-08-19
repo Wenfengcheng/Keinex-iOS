@@ -31,3 +31,9 @@
 "Enter text in all required fields"                     = "Введите текст во все необходимые поля";
 "No comments"                                           = "Комментариев нет";
 "Sending.."                                             = "Отправка..";
+"Mb"                                                    = "Мб";
+"Delete cache:"                                         = "Удалить кэш:";
+"Delete"                                                = "Удалить";
+"Delete cache?"                                         = "Удалить кэш?";
+"Cache size:"                                           = "Размер кэша:";
+

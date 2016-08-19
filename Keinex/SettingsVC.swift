@@ -19,6 +19,11 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     @IBOutlet weak var VersionNumber: UILabel!    
     @IBOutlet weak var SourceLabel: UILabel!
     @IBOutlet weak var SourceUrl: UILabel!
+    @IBOutlet weak var DeleteCacheLabel: UILabel!
+    @IBOutlet weak var CacheSizeNumber: UILabel!
+    
+    let cachePath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first
+    var cacheSize = 0.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +34,12 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         SupportLabel.text = "Support".localize
         OurAppsLabel.text = "Our apps".localize
         VersionLabel.text = "Version:".localize
+        DeleteCacheLabel.text = "Delete cache:".localize
         VersionNumber.text = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        CacheSizeNumber.text = "\(Double(round(100*DetectCacheSize())/100)) " + "Mb".localize
     }
     
     @IBAction func CloseButtonAction(sender: AnyObject) {
@@ -45,7 +55,21 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         return SourceUrl.text!
     }
     
-    
+    func DetectCacheSize() -> Double {
+        let cacheFiles = NSFileManager.defaultManager().subpathsAtPath(cachePath!)
+        
+        for i in cacheFiles! {
+            let path = cachePath!.stringByAppendingFormat("/\(i)")
+            let folder = try! NSFileManager.defaultManager().attributesOfItemAtPath(path)
+            for (sizeBase, sizeNew) in folder {
+                if sizeBase == NSFileSize {
+                    cacheSize += sizeNew.doubleValue
+                }
+            }
+        }
+        return cacheSize/(1024*1024)
+    }
+
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
@@ -77,7 +101,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             }
             
             self.presentViewController(sourceSelector, animated: true, completion: nil)
-
+            
         } else if (indexPath.section == 1 && indexPath.row == 0) {
             if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding,allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
@@ -89,9 +113,35 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 mc.addAttachmentData(deviceInfo, mimeType: "text/plain", fileName: "device_information.txt")
                 self.presentViewController(mc, animated: true, completion: nil)
             }
+            
         } else if (indexPath.section == 1 && indexPath.row == 1) {
             let openLink = NSURL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
             UIApplication.sharedApplication().openURL(openLink!)
+            
+        } else if (indexPath.section == 1 && indexPath.row == 3) {
+            let cacheFiles = NSFileManager.defaultManager().subpathsAtPath(cachePath!)
+            
+            let alert = UIAlertController(title: "Delete cache?".localize, message: "Cache size:".localize + " \(CacheSizeNumber.text!)", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel".localize, style: UIAlertActionStyle.Cancel) { Void in }
+            let confimAction = UIAlertAction(title: "Delete".localize, style: UIAlertActionStyle.Destructive) { (alertConfirm) -> Void in
+                for i in cacheFiles! {
+                    let path = self.cachePath!.stringByAppendingFormat("/\(i)")
+                    if(NSFileManager.defaultManager().fileExistsAtPath(path)) {
+                        do {
+                            try NSFileManager.defaultManager().removeItemAtPath(path)
+                        } catch let error as NSError {
+                            print(error)
+                        }
+                        self.CacheSizeNumber.text = "0.0 " + "Mb".localize
+                    }
+                }
+            }
+            
+            alert.addAction(confimAction)
+            alert.addAction(cancelAction)
+            
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
@@ -131,7 +181,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         if (section == 0) {
             return 1
         } else if (section == 1) {
-            return 3
+            return 4
         } else {
             return 0
         }
