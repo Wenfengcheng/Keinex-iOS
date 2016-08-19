@@ -18,10 +18,10 @@ class ArticleCommentsVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getComments()
-        
-        self.title = NSLocalizedString("Comments", comment: "")
+        self.title = "Comments".localize
         tableView.userInteractionEnabled = false
+
+        getComments()
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(newComments), forControlEvents: UIControlEvents.ValueChanged)
@@ -34,8 +34,8 @@ class ArticleCommentsVC: UITableViewController {
     }
     
     func successAlert(notification: NSNotification) {
-        let alert = UIAlertController(title: NSLocalizedString("Successfully", comment: ""), message: NSLocalizedString("Your comment has been sent to moderation", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: UIAlertActionStyle.Default, handler: nil))
+        let alert = UIAlertController(title: "Successfully".localize, message: "Your comment has been sent to moderation".localize, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok".localize, style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
@@ -46,9 +46,7 @@ class ArticleCommentsVC: UITableViewController {
     }
     
     func getComments() {
-        let latestCommentsOriginal: String = userDefaults.stringForKey(sourceUrl as String)!
-        var latestComments = String(latestCommentsOriginal.characters.dropLast(21))
-        //latestComments.appendContentsOf("/?json=1")
+        var latestComments = String((userDefaults.stringForKey(sourceUrl as String)!).characters.dropLast(21))
         latestComments.appendContentsOf("/api/get_post/?post_id=\(PostID)")
         
         Alamofire.request(.GET, latestComments).responseJSON { response in
@@ -67,7 +65,7 @@ class ArticleCommentsVC: UITableViewController {
                 noCommentsLabel.center.y = self.view.center.y - (self.view.frame.height / 4)
                 noCommentsLabel.center.x = self.view.center.x
                 noCommentsLabel.textAlignment = .Center
-                noCommentsLabel.text = NSLocalizedString("No comments", comment: "")
+                noCommentsLabel.text = "No comments".localize
                 self.tableView.separatorColor = UIColor.clearColor()
                 self.view.addSubview(noCommentsLabel)
             }
@@ -83,7 +81,6 @@ class ArticleCommentsVC: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -102,35 +99,34 @@ class ArticleCommentsVC: UITableViewController {
     
     // MARK: Load cells data from site
     
-    func populateFields(cell: ArticleCommentsCell, index: Int){
+    func populateCells(cell: ArticleCommentsCell, index: Int){
         
         guard let commentsContents = self.json["post"]["comments"][index]["content"].string else {
-            cell.commentsContent!.text = NSLocalizedString("Loading...", comment: "")
+            cell.commentsContent!.text = "Loading...".localize
             return
         }
         
         cell.commentsContent.text = String(encodedString: String(commentsContents))
 
         guard let commentsName = self.json["post"]["comments"][index]["name"].string else {
-            cell.commentsName!.text = NSLocalizedString("--", comment: "")
+            cell.commentsName!.text = "--"
             return
         }
         
         cell.commentsName.text = String(encodedString: String(commentsName))
         
         guard let commentsDate = self.json["post"]["comments"][index]["date"].string else {
-            cell.commentsDate!.text = NSLocalizedString("--", comment: "")
+            cell.commentsDate!.text = "--"
             return
         }
         
         cell.commentsDate.text = String(encodedString: String(commentsDate))
- 
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! ArticleCommentsCell
         
-        populateFields(cell, index: indexPath.row)
+        populateCells(cell, index: indexPath.row)
         
         return cell
     }

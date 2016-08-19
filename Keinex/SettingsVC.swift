@@ -23,12 +23,12 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("Settings", comment: "")
-        SourceLabel.text = NSLocalizedString("Source:", comment: "")
+        self.title = "Settings".localize
+        SourceLabel.text = "Source:".localize
         SourceUrl.text = SourceUrlText()
-        SupportLabel.text = NSLocalizedString("Support", comment: "")
-        OurAppsLabel.text = NSLocalizedString("Our apps", comment: "")
-        VersionLabel.text = NSLocalizedString("Version:", comment: "")
+        SupportLabel.text = "Support".localize
+        OurAppsLabel.text = "Our apps".localize
+        VersionLabel.text = "Version:".localize
         VersionNumber.text = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
     }
     
@@ -50,9 +50,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
         if (indexPath.section == 0 && indexPath.row == 0) {
-            let sourceSelector: UIAlertController = UIAlertController(title: NSLocalizedString("Select source", comment: ""), message: nil, preferredStyle: .ActionSheet)
+            let sourceSelector: UIAlertController = UIAlertController(title: "Select source".localize, message: nil, preferredStyle: .ActionSheet)
             
-            let cancelActionButton = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in
+            let cancelActionButton = UIAlertAction(title: "Cancel".localize, style: .Cancel) { action -> Void in
             }
             
             let setKeinexComButton = UIAlertAction(title: "keinex.com", style: .Default) { action -> Void in
@@ -141,9 +141,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if (section == 0) {
-            return NSLocalizedString("Reading", comment: "")
+            return "Reading".localize
         } else {
-            return NSLocalizedString("Other", comment: "")
+            return "Other".localize
         }
     }
 

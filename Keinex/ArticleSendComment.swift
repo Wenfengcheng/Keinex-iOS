@@ -16,17 +16,15 @@ class ArticleSendComment: UIViewController, UITextViewDelegate, UITextFieldDeleg
     @IBOutlet weak var NameTextField: UITextField!
     @IBOutlet weak var EmailTextField: UITextField!
     @IBOutlet weak var CommentText: UITextView!
-    
     @IBOutlet weak var NameLabel: UILabel!
     @IBOutlet weak var EmailLabel: UILabel!
     
-    
-    lazy var jsonForComments: JSON = JSON.null
     lazy var postID : Int = Int()
     var placeholderLabel : UILabel!
     var activityIndicator = UIActivityIndicatorView()
     let sendingLabel = UILabel(frame: CGRectMake(0, 0, 200, 21))
     var CloseKeyboardButton = UIBarButtonItem()
+    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
 
     override func viewDidLoad() {
         placeholderLabelText()
@@ -41,19 +39,15 @@ class ArticleSendComment: UIViewController, UITextViewDelegate, UITextFieldDeleg
         NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(ArticleSendComment.keyboardWillDisappear(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         CloseKeyboardButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(ArticleSendComment.EndEditing))
-        self.navigationItem.rightBarButtonItem = CloseKeyboardButton
-        CloseKeyboardButton.enabled = false
         CloseKeyboardButton.tintColor = UIColor.clearColor()
+        self.navigationItem.rightBarButtonItem = CloseKeyboardButton
     }
 
     func keyboardWillAppear(notification: NSNotification){
-        CloseKeyboardButton.enabled = true
         CloseKeyboardButton.tintColor = UIColor.whiteColor()
-        
     }
 
     func keyboardWillDisappear(notification: NSNotification){
-        CloseKeyboardButton.enabled = false
         CloseKeyboardButton.tintColor = UIColor.clearColor()
     }
 
@@ -61,23 +55,21 @@ class ArticleSendComment: UIViewController, UITextViewDelegate, UITextFieldDeleg
         self.view.endEditing(true)
     }
     
-    
-    
     func Localizable() {
-        SendCommentButton.setTitle(NSLocalizedString("Send", comment: ""), forState: .Normal)
-        NameTextField.placeholder = NSLocalizedString("Enter your name", comment: "")
-        EmailTextField.placeholder = NSLocalizedString("Enter your email", comment: "")
-        NameLabel.text = NSLocalizedString("Your name:", comment: "")
-        EmailLabel.text = NSLocalizedString("Your Email:", comment: "")
+        SendCommentButton.setTitle("Send".localize, forState: .Normal)
+        NameTextField.placeholder = "Enter your name".localize
+        EmailTextField.placeholder = "Enter your email".localize
+        NameLabel.text = "Your name:".localize
+        EmailLabel.text = "Your Email:".localize
     }
     
     func placeholderLabelText() {
         CommentText.delegate = self
         placeholderLabel = UILabel()
-        placeholderLabel.text = NSLocalizedString("Enter comment", comment: "")
+        placeholderLabel.text = "Enter comment".localize
         placeholderLabel.sizeToFit()
         CommentText.addSubview(placeholderLabel)
-        placeholderLabel.frame.origin = CGPointMake(5, CommentText.font!.pointSize / 2)
+        placeholderLabel.frame.origin = CGPointMake(10, CommentText.font!.pointSize / 2)
         placeholderLabel.textColor = UIColor(white: 0, alpha: 0.3)
         placeholderLabel.hidden = !CommentText.text.isEmpty
     }
@@ -96,13 +88,12 @@ class ArticleSendComment: UIViewController, UITextViewDelegate, UITextFieldDeleg
         sendingLabel.center.x = self.view.center.x
         sendingLabel.textAlignment = .Center
         sendingLabel.textColor = UIColor.whiteColor()
-        sendingLabel.text = NSLocalizedString("Sending..", comment: "")
+        sendingLabel.text = "Sending..".localize
         sendingLabel.font = UIFont.systemFontOfSize(20)
     }
 
     func getComments() {
         
-        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
         visualEffectView.frame = (self.navigationController?.view.bounds)!
         visualEffectView.hidden = false
 
@@ -122,15 +113,12 @@ class ArticleSendComment: UIViewController, UITextViewDelegate, UITextFieldDeleg
         Alamofire.request(.POST, requestString, parameters: nil).response {
             request, response, data, error in
             
-            print(request)
-            print(response)
-            print(error)
-            
-            visualEffectView.hidden = true
             self.view.userInteractionEnabled = true
+            self.visualEffectView.hidden = true
             self.activityIndicator.stopAnimating()
             self.activityIndicator.removeFromSuperview()
             self.sendingLabel.removeFromSuperview()
+            
             self.navigationController?.popViewControllerAnimated(true)
             NSNotificationCenter.defaultCenter().postNotificationName("CommentSended", object: nil)
         }
@@ -140,8 +128,8 @@ class ArticleSendComment: UIViewController, UITextViewDelegate, UITextFieldDeleg
          if NameTextField.text! != "" && validateEmail(EmailTextField.text!) != false && CommentText.text! != "" {
             getComments()
          } else {
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("Enter text in all required fields", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: UIAlertActionStyle.Default, handler: nil))
+            let alert = UIAlertController(title: "Error".localize, message: "Enter text in all required fields".localize, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize, style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -155,8 +143,6 @@ class ArticleSendComment: UIViewController, UITextViewDelegate, UITextFieldDeleg
         }
         return true
     }
-    
-    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
         view.endEditing(true)

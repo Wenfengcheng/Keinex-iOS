@@ -19,7 +19,7 @@ class LatestNewsTableViewController: UITableViewController {
         
         getNews()
         
-        self.title = NSLocalizedString("News", comment: "")
+        self.title = "News".localize
         tableView.userInteractionEnabled = false
 
         let refreshControl = UIRefreshControl()
@@ -100,7 +100,7 @@ class LatestNewsTableViewController: UITableViewController {
     func populateFields(cell: NewsListTableViewCell, index: Int){
         
         guard let title = self.json[index]["title"]["rendered"].string else{
-            cell.postTitle!.text = NSLocalizedString("Loading...", comment: "")
+            cell.postTitle!.text = "Loading...".localize
             return
         }
         
