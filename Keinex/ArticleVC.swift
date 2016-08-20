@@ -31,8 +31,9 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
         commentsButton.hidden = true
         
         if let featured = json["better_featured_image"]["source_url"].string{
-            featuredImage.contentMode = .ScaleAspectFill
-            ImageLoader.sharedLoader.imageForUrl(featured, completionHandler:{(image: UIImage?, url:String) in self.featuredImage.image = image
+            featuredImage.clipsToBounds = true
+            ImageLoader.sharedLoader.imageForUrl(featured, completionHandler:{(image: UIImage?, url: String) in
+                self.featuredImage.image = image
             })
         }
         
