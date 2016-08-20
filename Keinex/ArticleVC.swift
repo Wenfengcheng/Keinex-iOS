@@ -21,6 +21,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var postTime: UILabel!
     @IBOutlet weak var postContentWeb: UIWebView!
     @IBOutlet weak var webContentHeightConstant: NSLayoutConstraint!
+    @IBOutlet weak var featuredImageHeightConstant: NSLayoutConstraint!
     @IBOutlet weak var commentsButton: UIButton!
     
     override func viewDidLoad() {
@@ -30,10 +31,13 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
         
         commentsButton.hidden = true
         
+        if isiPad {
+            featuredImageHeightConstant.constant = featuredImageHeightConstant.constant * 1.5
+        }
+        
         if let featured = json["better_featured_image"]["source_url"].string{
             featuredImage.clipsToBounds = true
-            ImageLoader.sharedLoader.imageForUrl(featured, completionHandler:{(image: UIImage?, url: String) in
-                self.featuredImage.image = image
+            ImageLoader.sharedLoader.imageForUrl(featured, completionHandler:{(image: UIImage?, url: String) in self.featuredImage.image = image
             })
         }
         
@@ -56,8 +60,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
             postContentWeb.scrollView.scrollEnabled = false
         }
         
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ArticleVC.ShareLink))
-        self.navigationItem.rightBarButtonItem = shareButton
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ArticleVC.ShareLink))
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
@@ -82,6 +85,7 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
         self.scrollView.subviews.forEach { (subview) -> () in
             finalHeight += subview.frame.height
         }
+        
         self.scrollView.contentSize.height = finalHeight
     }
  

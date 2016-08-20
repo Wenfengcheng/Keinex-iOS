@@ -391,6 +391,7 @@
                     <connections>
                         <outlet property="commentsButton" destination="aSd-WL-WvP" id="SPh-TO-bQh"/>
                         <outlet property="featuredImage" destination="OUT-V3-9tx" id="Sg6-o8-CeG"/>
+                        <outlet property="featuredImageHeightConstant" destination="YeR-QW-uhe" id="wQg-Bw-40p"/>
                         <outlet property="postContentWeb" destination="ZlH-F8-cFM" id="VWq-eJ-RNK"/>
                         <outlet property="postTime" destination="TPQ-4e-hPr" id="gJh-rG-7jN"/>
                         <outlet property="postTitle" destination="ZFl-0d-oe9" id="gD4-g8-i3W"/>
