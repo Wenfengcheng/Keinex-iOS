@@ -19,6 +19,7 @@ class LatestNewsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         getNews()
+        print(Network.isConnectedToNetwork())
         
         self.title = "News".localize
         tableView.userInteractionEnabled = false

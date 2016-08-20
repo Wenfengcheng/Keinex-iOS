@@ -1,8 +1,8 @@
 //
-//  LocalizableEngine.swift
+//  LocalizeExtension.swift
 //  Keinex
 //
-//  Created by Андрей on 19.08.16.
+//  Created by Андрей on 20.08.16.
 //  Copyright © 2016 Keinex. All rights reserved.
 //
 
