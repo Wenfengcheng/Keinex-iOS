@@ -14,12 +14,13 @@ class LatestNewsTableViewController: UITableViewController {
 
     var parameters: [String:AnyObject] = ["filter[posts_per_page]" : 10]
     var json : JSON = JSON.null
+    let screenSize:CGRect = UIScreen.mainScreen().bounds
+    let networkWarning = UIView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getNews()
-        print(Network.isConnectedToNetwork())
         
         self.title = "News".localize
         tableView.userInteractionEnabled = false
@@ -29,17 +30,72 @@ class LatestNewsTableViewController: UITableViewController {
         self.refreshControl = refreshControl
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newNews(_:)), name: "ChangedSource", object: nil)
+        
+        if Network.isConnectedToNetwork() == false {
+            failedToConnect()
+            tableView.userInteractionEnabled = true
+        }
     }
 
     func newNews(notification:NSNotification) {
-        getNews()
-        self.tableView.reloadData()
+        if Network.isConnectedToNetwork() == true {
+            getNews()
+            self.tableView.reloadData()
+        } else {
+            failedToConnect()
+        }
         refreshControl?.endRefreshing()
     }
     
+    func showWarning() {
+        UIView.animateWithDuration(1.0, delay: 1.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
+                UIView.animateWithDuration(1.0, animations: {
+                    self.networkWarning.frame = CGRect(x: 0, y: self.screenSize.height * 0.025, width: self.screenSize.width * 0.8, height: 50)
+                    self.networkWarning.center.x = self.view.center.x
+                })
+            }, completion: {
+                (value: Bool) in
+                
+                let triggerTime2 = (Int64(NSEC_PER_SEC) * 3)
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime2), dispatch_get_main_queue(), { () -> Void in
+                    self.hideWarning()
+                })
+        })
+    }
+    
+    func hideWarning() {
+        UIView.animateWithDuration(1.0, animations: {
+            self.networkWarning.frame = CGRect(x: 0, y: -100, width: self.screenSize.width * 0.8, height: 50)
+            self.networkWarning.center.x = self.view.center.x
+        })
+    }
 
+    func failedToConnect() {
+        networkWarning.frame = CGRect(x: 0, y: -100, width: screenSize.width * 0.8, height: 50)
+        networkWarning.backgroundColor = UIColor.warningColor()
+        networkWarning.layer.cornerRadius = 25
+        networkWarning.center.x = self.view.center.x
+        networkWarning.layer.shadowOffset = CGSizeMake(1, 0)
+        networkWarning.layer.shadowOpacity = 0.5
+        networkWarning.layer.shadowColor = UIColor.grayColor().CGColor
+        
+        self.view.addSubview(networkWarning)
+        
+        let warningLabel = UILabel(frame: CGRectMake(0, 0, 200, 50))
+        warningLabel.textColor = UIColor.whiteColor()
+        warningLabel.center.x = self.view.center.x
+        warningLabel.text = "Failed to connect".localize
+        networkWarning.addSubview(warningLabel)
+        
+        let delayTime = Int64(NSEC_PER_SEC) * 1
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime), dispatch_get_main_queue(), { () -> Void in
+            self.showWarning()
+        })
+    }
+    
     func getNews() {
         let latestNews: String = userDefaults.stringForKey(sourceUrl as String)!
         Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
@@ -69,11 +125,11 @@ class LatestNewsTableViewController: UITableViewController {
         parameters = ["filter[posts_per_page]" : 50]
         Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
             guard let data = response.result.value else {
-            print("Request failed with error")
-            return
-        }
-        self.json = JSON(data)
-        self.tableView.reloadData()
+                print("Request failed with error")
+                return
+            }
+            self.json = JSON(data)
+            self.tableView.reloadData()
         }
     }
     
@@ -88,11 +144,15 @@ class LatestNewsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch self.json.type {
-            case Type.Array:
-                return self.json.count
-            default:
-                return 10
+        if Network.isConnectedToNetwork() == true {
+            switch self.json.type {
+                case Type.Array:
+                    return self.json.count
+                default:
+                    return 10
+            }
+        } else {
+            return 0
         }
     }
     

@@ -92,8 +92,8 @@ class ArticleVC: UIViewController, UIWebViewDelegate {
     func showCommentsButton() {
         commentsButton.layer.cornerRadius = 25
         commentsButton.layer.shadowOffset = CGSizeMake(1, 0)
-        commentsButton.layer.shadowOpacity = 1.0
-        commentsButton.layer.shadowColor = UIColor.mainColor().CGColor
+        commentsButton.layer.shadowOpacity = 0.5
+        commentsButton.layer.shadowColor = UIColor.blackColor().CGColor
         commentsButton.addTarget(self, action: #selector(commentsButtonAction), forControlEvents: .TouchUpInside)
         commentsButton.hidden = false
         commentsButton.transform = CGAffineTransformMakeScale(0.0, 0.0)
