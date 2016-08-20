@@ -55,32 +55,33 @@ class LatestNewsTableViewController: UITableViewController {
                 UIView.animateWithDuration(1.0, animations: {
                     self.networkWarning.frame = CGRect(x: 0, y: self.screenSize.height * 0.025, width: self.screenSize.width * 0.8, height: 50)
                     self.networkWarning.center.x = self.view.center.x
+                    self.networkWarning.translatesAutoresizingMaskIntoConstraints = false
                 })
             }, completion: {
                 (value: Bool) in
                 
-                let triggerTime2 = (Int64(NSEC_PER_SEC) * 3)
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime2), dispatch_get_main_queue(), { () -> Void in
-                    self.hideWarning()
-                })
+                let delayTime = (Int64(NSEC_PER_SEC) * 3)
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime), dispatch_get_main_queue(), { () -> Void in
+                self.hideWarning()
+            })
         })
     }
     
     func hideWarning() {
         UIView.animateWithDuration(1.0, animations: {
-            self.networkWarning.frame = CGRect(x: 0, y: -100, width: self.screenSize.width * 0.8, height: 50)
+            self.networkWarning.frame = CGRect(x: 0, y: -500, width: self.screenSize.width * 0.8, height: 0)
             self.networkWarning.center.x = self.view.center.x
         })
     }
 
     func failedToConnect() {
-        networkWarning.frame = CGRect(x: 0, y: -100, width: screenSize.width * 0.8, height: 50)
+        networkWarning.frame = CGRect(x: 0, y: -500, width: screenSize.width * 0.8, height: 0)
         networkWarning.backgroundColor = UIColor.warningColor()
-        networkWarning.layer.cornerRadius = 25
+        networkWarning.layer.cornerRadius = 15
         networkWarning.center.x = self.view.center.x
         networkWarning.layer.shadowOffset = CGSizeMake(1, 0)
         networkWarning.layer.shadowOpacity = 0.5
-        networkWarning.layer.shadowColor = UIColor.grayColor().CGColor
+        networkWarning.layer.shadowColor = UIColor.blackColor().CGColor
         
         self.view.addSubview(networkWarning)
         

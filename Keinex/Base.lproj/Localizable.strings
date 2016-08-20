@@ -36,6 +36,7 @@
 "Delete"                                                = "Delete";
 "Delete cache?"                                         = "Delete cache?";
 "Cache size:"                                           = "Cache size:";
+"Failed to connect"                                     = "Failed to connect";
 
 
 
