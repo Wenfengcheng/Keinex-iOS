@@ -53,7 +53,7 @@ class LatestNewsTableViewController: UITableViewController {
     func showWarning() {
         UIView.animateWithDuration(1.0, delay: 1.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
                 UIView.animateWithDuration(1.0, animations: {
-                    self.networkWarning.frame = CGRect(x: 0, y: self.screenSize.height * 0.025, width: self.screenSize.width * 0.8, height: 50)
+                    self.networkWarning.frame = CGRect(x: 0, y: self.screenSize.height * 0.125, width: self.screenSize.width * 0.8, height: 50)
                     self.networkWarning.center.x = self.view.center.x
                     self.networkWarning.translatesAutoresizingMaskIntoConstraints = false
                 })
@@ -73,7 +73,7 @@ class LatestNewsTableViewController: UITableViewController {
             self.networkWarning.center.x = self.view.center.x
         })
     }
-
+    
     func failedToConnect() {
         networkWarning.frame = CGRect(x: 0, y: -500, width: screenSize.width * 0.8, height: 0)
         networkWarning.backgroundColor = UIColor.warningColor()
@@ -83,7 +83,7 @@ class LatestNewsTableViewController: UITableViewController {
         networkWarning.layer.shadowOpacity = 0.5
         networkWarning.layer.shadowColor = UIColor.blackColor().CGColor
         
-        self.view.addSubview(networkWarning)
+        self.navigationController!.view.addSubview(networkWarning)
         
         let warningLabel = UILabel(frame: CGRectMake(0, 0, 200, 50))
         warningLabel.textColor = UIColor.whiteColor()
