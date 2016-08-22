@@ -1,6 +1,7 @@
 # Keinex-iOS
 
 [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](http://www.apple.com/ios/) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/AndreyBaranchikov/Keinex-iOS/master/LICENSE)
+![langauge Swift](https://img.shields.io/badge/language-Swift%202.2-orange.svg)
 
 
 The official open source app of the Keinex.com - [App Store link](https://itunes.apple.com/app/keinex/id1141684547).
