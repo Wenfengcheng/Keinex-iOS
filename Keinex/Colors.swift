@@ -11,7 +11,7 @@ import UIKit
 
 extension UIColor {
     class func mainColor() -> UIColor {
-        return UIColor(red:0.22, green:0.22, blue:0.28, alpha:1.0)
+        return UIColor(red:0.18, green:0.20, blue:0.25, alpha:1.0)
     }
     
     class func warningColor() -> UIColor {

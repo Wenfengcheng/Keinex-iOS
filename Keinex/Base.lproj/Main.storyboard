@@ -216,18 +216,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7s-6Q-aaT">
-                                <rect key="frame" x="0.0" y="612" width="375" height="55"/>
-                                <color key="backgroundColor" red="0.21960784310000001" green="0.21960784310000001" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="bYK-Cr-lon"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Send"/>
-                                <connections>
-                                    <action selector="SendComment:" destination="iZu-mI-Zbs" eventType="touchUpInside" id="Q8A-eA-Xdj"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XgQ-PI-uMg">
                                 <rect key="frame" x="171" y="48" width="184" height="30"/>
                                 <color key="tintColor" red="0.1019607843" green="0.1176470588" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -255,6 +243,18 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7s-6Q-aaT">
+                                <rect key="frame" x="0.0" y="612" width="375" height="55"/>
+                                <color key="backgroundColor" red="0.13725490200000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="bYK-Cr-lon"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Send"/>
+                                <connections>
+                                    <action selector="SendComment:" destination="iZu-mI-Zbs" eventType="touchUpInside" id="Q8A-eA-Xdj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
@@ -335,7 +335,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSd-WL-WvP">
                                         <rect key="frame" x="305" y="195" width="50" height="50"/>
-                                        <color key="backgroundColor" red="0.21960784310000001" green="0.21960784310000001" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.13725490200000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="4qM-cJ-XiM"/>
                                             <constraint firstAttribute="width" constant="50" id="oKg-WT-zGC"/>
@@ -567,7 +567,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="ARb-gQ-lAN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.21960784310000001" green="0.21960784310000001" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.13725490196078433" green="0.14901960784313725" blue="0.19215686274509805" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -590,7 +590,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="TUo-V8-sM6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.21960784310000001" green="0.21960784310000001" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.13725490200000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
