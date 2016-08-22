@@ -10,7 +10,6 @@ The official open source app of the Keinex.com.
 <a href="https://itunes.apple.com/app/keinex/id1141684547"><img src="app-store-badge.png" width="20%"></a>
 </div>
 
-[Official website](http://keinex.com), [Twitter](https://twitter.com/keinex_com), [Instagram](https://www.instagram.com/keinex)
-
-
 ![First screen](https://github.com/AndreyBaranchikov/Keinex-iOS/blob/master/1.jpg) ![Second screen](https://github.com/AndreyBaranchikov/Keinex-iOS/blob/master/2.jpg)
+
+[Official website](http://keinex.com), [Twitter](https://twitter.com/keinex_com), [Instagram](https://www.instagram.com/keinex)
