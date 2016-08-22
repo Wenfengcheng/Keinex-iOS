@@ -316,7 +316,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ZFl-0d-oe9">
-                                        <rect key="frame" x="0.0" y="242" width="375" height="50"/>
+                                        <rect key="frame" x="10" y="242" width="355" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="5P1-3f-R3n"/>
                                         </constraints>
@@ -355,20 +355,20 @@
                                     <constraint firstAttribute="bottom" secondItem="ZlH-F8-cFM" secondAttribute="bottom" constant="-1" id="1un-iK-ERG"/>
                                     <constraint firstItem="OUT-V3-9tx" firstAttribute="top" secondItem="GAJ-mw-h1B" secondAttribute="top" id="264-BB-HWx"/>
                                     <constraint firstAttribute="bottom" secondItem="ZlH-F8-cFM" secondAttribute="bottom" constant="-2" id="3q1-Az-STa"/>
-                                    <constraint firstItem="ZFl-0d-oe9" firstAttribute="leading" secondItem="OUT-V3-9tx" secondAttribute="leading" id="9Aq-4e-9dF"/>
+                                    <constraint firstItem="ZFl-0d-oe9" firstAttribute="leading" secondItem="OUT-V3-9tx" secondAttribute="leading" constant="10" id="9Aq-4e-9dF"/>
                                     <constraint firstItem="ZlH-F8-cFM" firstAttribute="top" secondItem="TPQ-4e-hPr" secondAttribute="bottom" constant="14" id="Ktd-1A-l1l"/>
                                     <constraint firstItem="ZlH-F8-cFM" firstAttribute="leading" secondItem="TPQ-4e-hPr" secondAttribute="leading" id="NKW-Y6-JfG"/>
-                                    <constraint firstItem="ZFl-0d-oe9" firstAttribute="trailing" secondItem="OUT-V3-9tx" secondAttribute="trailing" id="OfP-mu-tNj"/>
+                                    <constraint firstItem="ZFl-0d-oe9" firstAttribute="trailing" secondItem="OUT-V3-9tx" secondAttribute="trailing" constant="-10" id="OfP-mu-tNj"/>
                                     <constraint firstItem="ZFl-0d-oe9" firstAttribute="top" secondItem="OUT-V3-9tx" secondAttribute="bottom" constant="20" id="WDm-eN-LNA"/>
                                     <constraint firstItem="ZlH-F8-cFM" firstAttribute="trailing" secondItem="TPQ-4e-hPr" secondAttribute="trailing" id="XZo-VG-ngt"/>
                                     <constraint firstAttribute="trailing" secondItem="OUT-V3-9tx" secondAttribute="trailing" id="Zis-mf-ctA"/>
                                     <constraint firstItem="OUT-V3-9tx" firstAttribute="centerX" secondItem="GAJ-mw-h1B" secondAttribute="centerX" id="b7X-QZ-aIn"/>
                                     <constraint firstItem="TPQ-4e-hPr" firstAttribute="top" secondItem="ZFl-0d-oe9" secondAttribute="bottom" constant="10" id="bUt-Rp-KIz"/>
                                     <constraint firstItem="OUT-V3-9tx" firstAttribute="leading" secondItem="GAJ-mw-h1B" secondAttribute="leading" id="cIT-dD-MXU"/>
-                                    <constraint firstItem="TPQ-4e-hPr" firstAttribute="leading" secondItem="ZFl-0d-oe9" secondAttribute="leading" id="dsJ-5N-sup"/>
+                                    <constraint firstItem="TPQ-4e-hPr" firstAttribute="leading" secondItem="ZFl-0d-oe9" secondAttribute="leading" constant="-10" id="dsJ-5N-sup"/>
                                     <constraint firstAttribute="trailing" secondItem="aSd-WL-WvP" secondAttribute="trailing" constant="20" id="fHD-Sw-7la"/>
                                     <constraint firstItem="TPQ-4e-hPr" firstAttribute="top" secondItem="aSd-WL-WvP" secondAttribute="bottom" constant="57" id="h1G-rf-MO1"/>
-                                    <constraint firstItem="TPQ-4e-hPr" firstAttribute="trailing" secondItem="ZFl-0d-oe9" secondAttribute="trailing" id="pgN-rb-Faj"/>
+                                    <constraint firstItem="TPQ-4e-hPr" firstAttribute="trailing" secondItem="ZFl-0d-oe9" secondAttribute="trailing" constant="10" id="pgN-rb-Faj"/>
                                     <constraint firstAttribute="bottom" secondItem="OUT-V3-9tx" secondAttribute="bottom" constant="445" id="xAT-ti-5X5"/>
                                 </constraints>
                                 <variation key="default">
