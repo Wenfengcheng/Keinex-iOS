@@ -4,7 +4,11 @@
 ![langauge Swift](https://img.shields.io/badge/language-Swift%202.2-orange.svg)
 
 
-The official open source app of the Keinex.com - [App Store link](https://itunes.apple.com/app/keinex/id1141684547).
+The official open source app of the Keinex.com.
+
+<div style="margin: 0 auto; text-align: center;">
+<a href="https://itunes.apple.com/app/keinex/id1141684547"><img src="app-store-badge.png" width="20%"></a>
+</div>
 
 [Official website](http://keinex.com), [Twitter](https://twitter.com/keinex_com), [Instagram](https://www.instagram.com/keinex)
 
