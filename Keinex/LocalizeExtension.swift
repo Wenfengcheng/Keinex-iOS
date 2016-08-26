@@ -10,6 +10,6 @@ import Foundation
 
 extension String {
     var localize: String {
-        return NSLocalizedString(self, tableName: nil, bundle: NSBundle.mainBundle(), value: "", comment: "")
+        return NSLocalizedString(self, comment: "")
     }
 }
