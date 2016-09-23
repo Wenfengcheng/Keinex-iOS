@@ -12,9 +12,9 @@ import SwiftyJSON
 
 class LatestNewsTableViewController: UITableViewController {
 
-    var parameters: [String:AnyObject] = ["filter[posts_per_page]" : 10]
+    var parameters: [String:AnyObject] = ["filter[posts_per_page]" : 50 as AnyObject]
     var json : JSON = JSON.null
-    let screenSize:CGRect = UIScreen.mainScreen().bounds
+    let screenSize:CGRect = UIScreen.main.bounds
     let networkWarning = UIView()
 
     override func viewDidLoad() {
@@ -23,24 +23,24 @@ class LatestNewsTableViewController: UITableViewController {
         getNews()
         
         self.title = "News".localize
-        tableView.userInteractionEnabled = false
+        tableView.isUserInteractionEnabled = false
 
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(newNews), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(newNews), for: UIControlEvents.valueChanged)
         self.refreshControl = refreshControl
     }
     
     
-    override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newNews(_:)), name: "ChangedSource", object: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(newNews(_:)), name: NSNotification.Name(rawValue: "ChangedSource"), object: nil)
         
         if Network.isConnectedToNetwork() == false {
             failedToConnect()
-            tableView.userInteractionEnabled = true
+            tableView.isUserInteractionEnabled = true
         }
     }
 
-    func newNews(notification:NSNotification) {
+    func newNews(_ notification:Notification) {
         if Network.isConnectedToNetwork() == true {
             getNews()
             self.tableView.reloadData()
@@ -51,8 +51,8 @@ class LatestNewsTableViewController: UITableViewController {
     }
     
     func showWarning() {
-        UIView.animateWithDuration(1.0, delay: 1.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
-                UIView.animateWithDuration(1.0, animations: {
+        UIView.animate(withDuration: 1.0, delay: 1.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 1.0, animations: {
                     self.networkWarning.frame = CGRect(x: 0, y: self.screenSize.height * 0.125, width: self.screenSize.width * 0.8, height: 50)
                     self.networkWarning.center.x = self.view.center.x
                     self.networkWarning.translatesAutoresizingMaskIntoConstraints = false
@@ -61,14 +61,14 @@ class LatestNewsTableViewController: UITableViewController {
                 (value: Bool) in
                 
                 let delayTime = (Int64(NSEC_PER_SEC) * 3)
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime), dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(delayTime) / Double(NSEC_PER_SEC), execute: { () -> Void in
                 self.hideWarning()
             })
         })
     }
     
     func hideWarning() {
-        UIView.animateWithDuration(1.0, animations: {
+        UIView.animate(withDuration: 1.0, animations: {
             self.networkWarning.frame = CGRect(x: 0, y: -500, width: self.screenSize.width * 0.8, height: 0)
             self.networkWarning.center.x = self.view.center.x
         })
@@ -79,57 +79,35 @@ class LatestNewsTableViewController: UITableViewController {
         networkWarning.backgroundColor = UIColor.warningColor()
         networkWarning.layer.cornerRadius = 15
         networkWarning.center.x = self.view.center.x
-        networkWarning.layer.shadowOffset = CGSizeMake(1, 0)
+        networkWarning.layer.shadowOffset = CGSize(width: 1, height: 0)
         networkWarning.layer.shadowOpacity = 0.5
-        networkWarning.layer.shadowColor = UIColor.blackColor().CGColor
+        networkWarning.layer.shadowColor = UIColor.black.cgColor
         
         self.navigationController!.view.addSubview(networkWarning)
         
-        let warningLabel = UILabel(frame: CGRectMake(0, 0, 200, 50))
-        warningLabel.textColor = UIColor.whiteColor()
+        let warningLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        warningLabel.textColor = UIColor.white
         warningLabel.center.x = self.view.center.x
         warningLabel.text = "Failed to connect".localize
         networkWarning.addSubview(warningLabel)
         
         let delayTime = Int64(NSEC_PER_SEC) * 1
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime), dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(delayTime) / Double(NSEC_PER_SEC), execute: { () -> Void in
             self.showWarning()
         })
     }
     
     func getNews() {
-        let latestNews: String = userDefaults.stringForKey(sourceUrl as String)!
-        Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
+        let latestNews: String = userDefaults.string(forKey: sourceUrl as String)!
+        
+        Alamofire.request(latestNews, method: .get, parameters: parameters).responseJSON { response in
             guard let data = response.result.value else {
                 print("Request failed with error")
                 return
             }
+            
             self.json = JSON(data)
-            self.tableView.userInteractionEnabled = true
-            self.loadMoreNews()
-
-            //Check new post
-            let latestPostTitle = userDefaults.stringForKey("postValue")
-            if latestPostTitle == String(self.json[0]["title"]["rendered"]) {
-                print("Latest post is latest")
-            } else {
-                print("Latest post is different")
-                userDefaults.setObject(String(self.json[0]["title"]["rendered"]), forKey: latestPostValue)
-            }
-            self.tableView.reloadData()
-        }
-    }
-    
-    func loadMoreNews() {
-        let latestNews: String = userDefaults.stringForKey(sourceUrl as String)!
-
-        parameters = ["filter[posts_per_page]" : 50]
-        Alamofire.request(.GET, latestNews, parameters:parameters).responseJSON { response in
-            guard let data = response.result.value else {
-                print("Request failed with error")
-                return
-            }
-            self.json = JSON(data)
+            self.tableView.isUserInteractionEnabled = true
             self.tableView.reloadData()
         }
     }
@@ -140,14 +118,14 @@ class LatestNewsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if Network.isConnectedToNetwork() == true {
             switch self.json.type {
-                case Type.Array:
+                case Type.array:
                     return self.json.count
                 default:
                     return 10
@@ -159,62 +137,74 @@ class LatestNewsTableViewController: UITableViewController {
     
     // MARK: Load cells data from site
     
-    func populateFields(cell: NewsListTableViewCell, index: Int){
+    func populateFields(_ cell: NewsListTableViewCell, index: Int){
         
-        guard let title = self.json[index]["title"]["rendered"].string else{
+        
+        guard let title = self.json[index]["title"]["rendered"].string else {
             cell.postTitle!.text = "Loading...".localize
             return
         }
         
         cell.postTitle!.text = String(encodedString: title)
+ 
         
         guard let date = self.json[index]["date"].string else {
             cell.postDate!.text = "--"
             return
         }
 
-        cell.postDate!.text = date.stringByReplacingOccurrencesOfString("T", withString: " ", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        cell.postDate!.text = date.replacingOccurrences(of: "T", with: " ", options: NSString.CompareOptions.literal, range: nil)
         
-        guard let image = self.json[index]["better_featured_image"]["media_details"]["sizes"]["themo_blog_standard"]["source_url"].string where
-        image != "null" else {
+        guard let image = self.json[index]["better_featured_image"]["source_url"].string, image != "null" else {
             print("Image didn't load")
             return
         }
-    
-        ImageLoader.sharedLoader.imageForUrl(image, completionHandler:{(image: UIImage?, url: String) in
-            cell.postImage.image = image
-        })
+
+        ImageLoader.sharedLoader.imageForUrl(urlString: image) { [weak self] image, url in
+            if self != nil {
+                DispatchQueue.main.async(execute: { () -> Void in
+                    cell.postImage.image = image
+                })
+            }
+        }
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! NewsListTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NewsListTableViewCell
 
-        populateFields(cell, index: indexPath.row)
+        populateFields(cell, index: (indexPath as NSIndexPath).row)
 
         return cell
     }
     
     // MARK: - Navigation
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let PostVC : ArticleVC = storyboard!.instantiateViewControllerWithIdentifier("ArticleVC") as! ArticleVC
-        PostVC.json = self.json[indexPath.row]
-        PostVC.indexRow = indexPath.row;
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let PostVC : ArticleVC = storyboard!.instantiateViewController(withIdentifier: "ArticleVC") as! ArticleVC
+        PostVC.json = self.json[(indexPath as NSIndexPath).row]
+        PostVC.indexRow = (indexPath as NSIndexPath).row;
         self.navigationController?.pushViewController(PostVC, animated: true)
     }
 }
 
 extension String {
     init(encodedString: String) {
+        self.init()
+        guard let encodedData = encodedString.data(using: .utf8) else {
+            self = encodedString
+            return
+        }
+        
+        let attributedOptions: [String : Any] = [
+            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+            NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue
+        ]
+        
         do {
-            let encodedData = encodedString.dataUsingEncoding(NSUTF8StringEncoding)!
-            let attributedOptions : [String: AnyObject] = [
-                NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
-            ]
             let attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
-            self.init(attributedString.string)
+            self = attributedString.string
         } catch {
-            fatalError("Unhandled error: \(error)")
+            print("Error: \(error)")
+            self = encodedString
         }
     }
 }

@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-let userDefaults = NSUserDefaults.standardUserDefaults()
-let isiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+let userDefaults = UserDefaults.standard
+let isiPad = UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad
 let latestPostValue = "postValue"
 
 //Sources

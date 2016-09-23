@@ -1,9 +1,9 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
 target 'Keinex' do
-    pod 'SwiftyJSON'
+    pod 'SwiftyJSON', git: 'https://github.com/IBM-Swift/SwiftyJSON.git', branch: 'master'
     pod 'Alamofire'
+    pod 'Spring', git: 'https://github.com/MengTo/Spring.git', branch: 'swift3'
 end
-

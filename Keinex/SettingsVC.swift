@@ -22,7 +22,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     @IBOutlet weak var DeleteCacheLabel: UILabel!
     @IBOutlet weak var CacheSizeNumber: UILabel!
     
-    let cachePath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first
+    let cachePath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first
     var cacheSize = 0.0
 
     override func viewDidLoad() {
@@ -35,19 +35,19 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         OurAppsLabel.text = "Our apps".localize
         VersionLabel.text = "Version:".localize
         DeleteCacheLabel.text = "Delete cache:".localize
-        VersionNumber.text = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
+        VersionNumber.text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         CacheSizeNumber.text = "\(Double(round(100*DetectCacheSize())/100)) " + "Mb".localize
     }
     
-    @IBAction func CloseButtonAction(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func CloseButtonAction(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
     
     func SourceUrlText() -> String {
-        if userDefaults.stringForKey(sourceUrl as String)! == sourceUrlKeinexRu {
+        if userDefaults.string(forKey: sourceUrl as String)! == sourceUrlKeinexRu as String {
             SourceUrl.text = "keinex.ru"
         } else {
             SourceUrl.text = "keinex.com"
@@ -56,39 +56,39 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     }
     
     func DetectCacheSize() -> Double {
-        let cacheFiles = NSFileManager.defaultManager().subpathsAtPath(cachePath!)
+        let cacheFiles = FileManager.default.subpaths(atPath: cachePath!)
         
         for i in cacheFiles! {
-            let path = cachePath!.stringByAppendingFormat("/\(i)")
-            let folder = try! NSFileManager.defaultManager().attributesOfItemAtPath(path)
+            let path = cachePath!.appendingFormat("/\(i)")
+            let folder = try! FileManager.default.attributesOfItem(atPath: path)
             for (sizeBase, sizeNew) in folder {
-                if sizeBase == NSFileSize {
-                    cacheSize += sizeNew.doubleValue
+                if sizeBase == FileAttributeKey.size {
+                    cacheSize += (sizeNew as AnyObject).doubleValue
                 }
             }
         }
         return cacheSize/(1024*1024)
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
 
-        if (indexPath.section == 0 && indexPath.row == 0) {
-            let sourceSelector: UIAlertController = UIAlertController(title: "Select source".localize, message: nil, preferredStyle: .ActionSheet)
+        if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 0) {
+            let sourceSelector: UIAlertController = UIAlertController(title: "Select source".localize, message: nil, preferredStyle: .actionSheet)
             
-            let cancelActionButton = UIAlertAction(title: "Cancel".localize, style: .Cancel) { action -> Void in
+            let cancelActionButton = UIAlertAction(title: "Cancel".localize, style: .cancel) { action -> Void in
             }
             
-            let setKeinexComButton = UIAlertAction(title: "keinex.com", style: .Default) { action -> Void in
-                userDefaults.setObject(String(sourceUrlKeinexCom), forKey: sourceUrl as String)
+            let setKeinexComButton = UIAlertAction(title: "keinex.com", style: .default) { action -> Void in
+                userDefaults.set(String(sourceUrlKeinexCom), forKey: sourceUrl as String)
                 self.SourceUrl.text = self.SourceUrlText()
-                NSNotificationCenter.defaultCenter().postNotificationName("ChangedSource", object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "ChangedSource"), object: nil)
             }
             
-            let setKeinexRuButton = UIAlertAction(title: "keinex.ru", style: .Default) { action -> Void in
-                userDefaults.setObject(String(sourceUrlKeinexRu), forKey: sourceUrl as String)
+            let setKeinexRuButton = UIAlertAction(title: "keinex.ru", style: .default) { action -> Void in
+                userDefaults.set(String(sourceUrlKeinexRu), forKey: sourceUrl as String)
                 self.SourceUrl.text = self.SourceUrlText()
-                NSNotificationCenter.defaultCenter().postNotificationName("ChangedSource", object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "ChangedSource"), object: nil)
             }
             
             sourceSelector.addAction(cancelActionButton)
@@ -100,10 +100,10 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 popoverController.sourceRect = CGRect(x: self.view.frame.width / 2, y: self.SupportLabel.frame.height * 2, width: 0, height: 0)
             }
             
-            self.presentViewController(sourceSelector, animated: true, completion: nil)
+            self.present(sourceSelector, animated: true, completion: nil)
             
-        } else if (indexPath.section == 1 && indexPath.row == 0) {
-            if let deviceInfo = generateDeviceInfo().dataUsingEncoding(NSUTF8StringEncoding,allowLossyConversion: false) {
+        } else if ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0) {
+            if let deviceInfo = generateDeviceInfo().data(using: String.Encoding.utf8,allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
                 mc.navigationBar.tintColor = UIColor.mainColor()
@@ -111,25 +111,25 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 mc.setToRecipients(["info@keinex.info"])
                 mc.setSubject("Keinex app")
                 mc.addAttachmentData(deviceInfo, mimeType: "text/plain", fileName: "device_information.txt")
-                self.presentViewController(mc, animated: true, completion: nil)
+                self.present(mc, animated: true, completion: nil)
             }
             
-        } else if (indexPath.section == 1 && indexPath.row == 1) {
-            let openLink = NSURL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
-            UIApplication.sharedApplication().openURL(openLink!)
+        } else if ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1) {
+            let openLink = URL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
+            UIApplication.shared.openURL(openLink!)
             
-        } else if (indexPath.section == 1 && indexPath.row == 3) {
-            let cacheFiles = NSFileManager.defaultManager().subpathsAtPath(cachePath!)
+        } else if ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 3) {
+            let cacheFiles = FileManager.default.subpaths(atPath: cachePath!)
             
-            let alert = UIAlertController(title: "Delete cache?".localize, message: "Cache size:".localize + " \(CacheSizeNumber.text!)", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Delete cache?".localize, message: "Cache size:".localize + " \(CacheSizeNumber.text!)", preferredStyle: UIAlertControllerStyle.alert)
             
-            let cancelAction = UIAlertAction(title: "Cancel".localize, style: UIAlertActionStyle.Cancel) { Void in }
-            let confimAction = UIAlertAction(title: "Delete".localize, style: UIAlertActionStyle.Destructive) { (alertConfirm) -> Void in
+            let cancelAction = UIAlertAction(title: "Cancel".localize, style: UIAlertActionStyle.cancel) { Void in }
+            let confimAction = UIAlertAction(title: "Delete".localize, style: UIAlertActionStyle.destructive) { (alertConfirm) -> Void in
                 for i in cacheFiles! {
-                    let path = self.cachePath!.stringByAppendingFormat("/\(i)")
-                    if(NSFileManager.defaultManager().fileExistsAtPath(path)) {
+                    let path = self.cachePath!.appendingFormat("/\(i)")
+                    if(FileManager.default.fileExists(atPath: path)) {
                         do {
-                            try NSFileManager.defaultManager().removeItemAtPath(path)
+                            try FileManager.default.removeItem(atPath: path)
                         } catch let error as NSError {
                             print(error)
                         }
@@ -141,19 +141,19 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             alert.addAction(confimAction)
             alert.addAction(cancelAction)
             
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     func generateDeviceInfo() -> String {
-        let device = UIDevice.currentDevice()
-        let dictionary = NSBundle.mainBundle().infoDictionary!
+        let device = UIDevice.current
+        let dictionary = Bundle.main.infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
         
         var deviceInfo = "App Version: \(version)\r\r"
         deviceInfo += "Device: \(deviceName())\r"
         deviceInfo += "iOS Version: \(device.systemVersion)\r"
-        deviceInfo += "Timezone: \(NSTimeZone.localTimeZone().name) (\(NSTimeZone.localTimeZone().abbreviation!))\r\r"
+        deviceInfo += "Timezone: \(TimeZone.autoupdatingCurrent.identifier) (\(NSTimeZone.local.abbreviation()!))\r\r"
     
         return deviceInfo
     }
@@ -163,21 +163,21 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
         let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8 where value != 0 else { return identifier }
+            guard let value = element.value as? Int8 , value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
         return identifier
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
             return 1
         } else if (section == 1) {
@@ -187,7 +187,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if (section == 0) {
             return "Reading".localize
         } else {
