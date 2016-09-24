@@ -81,12 +81,14 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             
             let setKeinexComButton = UIAlertAction(title: "keinex.com", style: .default) { action -> Void in
                 userDefaults.set(String(sourceUrlKeinexCom), forKey: sourceUrl as String)
+                userDefaults.synchronize()
                 self.SourceUrl.text = self.SourceUrlText()
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "ChangedSource"), object: nil)
             }
             
             let setKeinexRuButton = UIAlertAction(title: "keinex.ru", style: .default) { action -> Void in
                 userDefaults.set(String(sourceUrlKeinexRu), forKey: sourceUrl as String)
+                userDefaults.synchronize()
                 self.SourceUrl.text = self.SourceUrlText()
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "ChangedSource"), object: nil)
             }

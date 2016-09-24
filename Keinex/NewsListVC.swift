@@ -26,13 +26,13 @@ class LatestNewsTableViewController: UITableViewController {
         tableView.isUserInteractionEnabled = false
 
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(newNews), for: UIControlEvents.valueChanged)
+        refreshControl.addTarget(self, action: #selector(LatestNewsTableViewController.newNews), for: UIControlEvents.valueChanged)
         self.refreshControl = refreshControl
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(newNews(_:)), name: NSNotification.Name(rawValue: "ChangedSource"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LatestNewsTableViewController.newNews), name: NSNotification.Name(rawValue: "ChangedSource"), object: nil)
         
         if Network.isConnectedToNetwork() == false {
             failedToConnect()
@@ -40,13 +40,14 @@ class LatestNewsTableViewController: UITableViewController {
         }
     }
 
-    func newNews(_ notification:Notification) {
+    func newNews() {
         if Network.isConnectedToNetwork() == true {
             getNews()
-            self.tableView.reloadData()
         } else {
             failedToConnect()
         }
+        
+        self.tableView.reloadData()
         refreshControl?.endRefreshing()
     }
     
@@ -102,7 +103,7 @@ class LatestNewsTableViewController: UITableViewController {
         
         Alamofire.request(latestNews, method: .get, parameters: parameters).responseJSON { response in
             guard let data = response.result.value else {
-                print("Request failed with error")
+                print("Request failed with error. Url: \(latestNews)")
                 return
             }
             

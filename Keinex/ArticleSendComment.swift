@@ -107,7 +107,7 @@ class ArticleSendComment: UIViewController, UITextViewDelegate, UITextFieldDeleg
         let latestCommentsOriginal: String = userDefaults.string(forKey: sourceUrl as String)!
         let latestComments = String(latestCommentsOriginal.characters.dropLast(21))
         
-        var requestString = "\(latestComments)/api/?json=submit_comment&post_id=\(postID)&name=\(NameTextField.text!)&email=\(EmailTextField.text!)&content=\(CommentText.text)"
+        var requestString = "\(latestComments)/api/?json=submit_comment&post_id=\(postID)&name=\(NameTextField.text!)&email=\(EmailTextField.text!)&content=\(CommentText.text!)"
         requestString = requestString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         
         Alamofire.request(requestString, method: .post).response { response in
