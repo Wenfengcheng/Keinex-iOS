@@ -5,5 +5,4 @@ use_frameworks!
 target 'Keinex' do
     pod 'SwiftyJSON', git: 'https://github.com/IBM-Swift/SwiftyJSON.git', branch: 'master'
     pod 'Alamofire'
-    pod 'Spring', git: 'https://github.com/MengTo/Spring.git', branch: 'swift3'
 end

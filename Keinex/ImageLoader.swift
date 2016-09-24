@@ -14,9 +14,11 @@ public class ImageLoader {
     var cache = NSCache<NSString, NSData>()
     
     public class var sharedLoader : ImageLoader {
+        
         struct Static {
             static let instance : ImageLoader = ImageLoader()
         }
+        
         return Static.instance
     }
         
@@ -49,7 +51,6 @@ public class ImageLoader {
                 }
             })
             downloadTask.resume()
-            
         }
     }
 }
