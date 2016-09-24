@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import Spring
 
 class ArticleVC: UIViewController, UIWebViewDelegate {
 
