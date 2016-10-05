@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Spring.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,12 +22,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>04B93DB156FFA863522DF8F993F761E6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>486EDE179FF552DA20F6D76E15E46DCC</key>
+		<key>64C1FD1936EF62D36A9AE5CB4D3360D5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -42,7 +32,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CD2A1869F72C2BAFFE70554D24C68B00</key>
+		<key>B5C4CF3BE443AD0FDFB340C12C12436F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

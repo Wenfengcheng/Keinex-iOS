@@ -3,6 +3,6 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'Keinex' do
-    pod 'SwiftyJSON', git: 'https://github.com/IBM-Swift/SwiftyJSON.git', branch: 'master'
+    pod 'SwiftyJSON'
     pod 'Alamofire'
 end
