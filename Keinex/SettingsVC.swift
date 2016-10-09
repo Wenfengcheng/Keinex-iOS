@@ -19,8 +19,10 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     @IBOutlet weak var VersionNumber: UILabel!    
     @IBOutlet weak var SourceLabel: UILabel!
     @IBOutlet weak var SourceUrl: UILabel!
-    @IBOutlet weak var DeleteCacheLabel: UILabel!
+    @IBOutlet weak var ClearCacheLabel: UILabel!
     @IBOutlet weak var CacheSizeNumber: UILabel!
+    @IBOutlet weak var ClearCacheOnExitLabel: UILabel!
+    @IBOutlet weak var ClearCacheSwitch: UISwitch!
     
     let cachePath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first
     var cacheSize = 0.0
@@ -34,12 +36,30 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         SupportLabel.text = "Support".localize
         OurAppsLabel.text = "Our apps".localize
         VersionLabel.text = "Version:".localize
-        DeleteCacheLabel.text = "Delete cache:".localize
+        ClearCacheLabel.text = "Clear cache:".localize
+        ClearCacheOnExitLabel.text = "Clear cache on exit:".localize
         VersionNumber.text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        
+        ClearCacheSwitch.addTarget(self, action: #selector(SettingsViewController.clearCacheSwitchState), for: UIControlEvents.valueChanged)
+        ClearCacheSwitch.onTintColor = UIColor.mainColor()
+        
+        if userDefaults.string(forKey: autoDelCache as String)! == "onClose" {
+            ClearCacheSwitch.setOn(true, animated: true);
+        }
+    }
+    
+    func clearCacheSwitchState() {
+        if ClearCacheSwitch.isOn {
+            userDefaults.set("onClose", forKey: autoDelCache as String)
+            userDefaults.synchronize()
+        } else {
+            userDefaults.set("none", forKey: autoDelCache as String)
+            userDefaults.synchronize()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        CacheSizeNumber.text = "\(Double(round(100*DetectCacheSize())/100)) " + "Mb".localize
+        CacheSizeNumber.text = "\(Double(round(100 * DetectCacheSize()) / 100)) " + "Mb".localize
     }
     
     @IBAction func CloseButtonAction(_ sender: AnyObject) {
@@ -67,7 +87,8 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 }
             }
         }
-        return cacheSize/(1024*1024)
+        
+        return cacheSize / (1024 * 1024)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -75,7 +96,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
 
         if ((indexPath as NSIndexPath).section == 0 && (indexPath as NSIndexPath).row == 0) {
             let sourceSelector: UIAlertController = UIAlertController(title: "Select source".localize, message: nil, preferredStyle: .actionSheet)
-            
+
             let cancelActionButton = UIAlertAction(title: "Cancel".localize, style: .cancel) { action -> Void in
             }
             
@@ -96,6 +117,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             sourceSelector.addAction(cancelActionButton)
             sourceSelector.addAction(setKeinexComButton)
             sourceSelector.addAction(setKeinexRuButton)
+            sourceSelector.view.tintColor = UIColor.mainColor()
             
             if let popoverController = sourceSelector.popoverPresentationController {
                 popoverController.sourceView = self.view
@@ -105,6 +127,22 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             self.present(sourceSelector, animated: true, completion: nil)
             
         } else if ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0) {
+            
+            let alert = UIAlertController(title: "Clear cache?".localize, message: "Cache size:".localize + " \(CacheSizeNumber.text!)", preferredStyle: UIAlertControllerStyle.alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel".localize, style: UIAlertActionStyle.cancel) { Void in
+            }
+            
+            let confimAction = UIAlertAction(title: "Clear".localize, style: UIAlertActionStyle.destructive) { (alertConfirm) -> Void in
+                self.deleteCache()
+                self.CacheSizeNumber.text = "0.0 " + "Mb".localize
+            }
+            
+            alert.addAction(confimAction)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+        
+        } else if ((indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 0) {
             if let deviceInfo = generateDeviceInfo().data(using: String.Encoding.utf8,allowLossyConversion: false) {
                 let mc = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
@@ -116,34 +154,24 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 self.present(mc, animated: true, completion: nil)
             }
             
-        } else if ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1) {
+        } else if ((indexPath as NSIndexPath).section == 2 && (indexPath as NSIndexPath).row == 1) {
             let openLink = URL(string : "https://itunes.apple.com/developer/andrey-baranchikov/id785333926")
             UIApplication.shared.openURL(openLink!)
-            
-        } else if ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 3) {
-            let cacheFiles = FileManager.default.subpaths(atPath: cachePath!)
-            
-            let alert = UIAlertController(title: "Delete cache?".localize, message: "Cache size:".localize + " \(CacheSizeNumber.text!)", preferredStyle: UIAlertControllerStyle.alert)
-            
-            let cancelAction = UIAlertAction(title: "Cancel".localize, style: UIAlertActionStyle.cancel) { Void in }
-            let confimAction = UIAlertAction(title: "Delete".localize, style: UIAlertActionStyle.destructive) { (alertConfirm) -> Void in
-                for i in cacheFiles! {
-                    let path = self.cachePath!.appendingFormat("/\(i)")
-                    if(FileManager.default.fileExists(atPath: path)) {
-                        do {
-                            try FileManager.default.removeItem(atPath: path)
-                        } catch let error as NSError {
-                            print(error)
-                        }
-                        self.CacheSizeNumber.text = "0.0 " + "Mb".localize
-                    }
+        }
+    }
+    
+    func deleteCache() {
+        let cacheFiles = FileManager.default.subpaths(atPath: cachePath!)
+
+        for i in cacheFiles! {
+            let path = self.cachePath!.appendingFormat("/\(i)")
+            if (FileManager.default.fileExists(atPath: path)) {
+                do {
+                    try FileManager.default.removeItem(atPath: path)
+                } catch let error as NSError {
+                    print(error)
                 }
             }
-            
-            alert.addAction(confimAction)
-            alert.addAction(cancelAction)
-            
-            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -176,14 +204,16 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
             return 1
         } else if (section == 1) {
-            return 4
+            return 2
+        } else if (section == 2) {
+            return 3
         } else {
             return 0
         }
@@ -192,8 +222,12 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if (section == 0) {
             return "Reading".localize
-        } else {
+        } else if (section == 1) {
+            return "Cache".localize
+        } else if (section == 2) {
             return "Other".localize
+        } else {
+            return ""
         }
     }
 

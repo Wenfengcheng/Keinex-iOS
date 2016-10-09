@@ -32,10 +32,11 @@
 "No comments"                                           = "No comments";
 "Sending.."                                             = "Sending..";
 "Mb"                                                    = "Mb";
-"Delete cache:"                                         = "Delete cache:";
-"Delete"                                                = "Delete";
-"Delete cache?"                                         = "Delete cache?";
+"Clear cache:"                                          = "Clear cache:";
+"Clear"                                                 = "Clear";
+"Clear cache?"                                          = "Clear cache?";
 "Cache size:"                                           = "Cache size:";
+"Clear cache on exit:"                                  = "Clear cache on exit:";
 "Failed to connect"                                     = "Failed to connect";
 
 

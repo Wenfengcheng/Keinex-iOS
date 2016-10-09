@@ -32,10 +32,11 @@
 "No comments"                                           = "Комментариев нет";
 "Sending.."                                             = "Отправка..";
 "Mb"                                                    = "Мб";
-"Delete cache:"                                         = "Удалить кэш:";
-"Delete"                                                = "Удалить";
-"Delete cache?"                                         = "Удалить кэш?";
+"Clear cache:"                                          = "Очистить кэш:";
+"Delete"                                                = "Очистить";
+"Clear cache?"                                          = "Очистить кэш?";
 "Cache size:"                                           = "Размер кэша:";
+"Clear cache on exit:"                                  = "Очищать кэш при закрытии приложения:";
 "Failed to connect"                                     = "Отсуствует подключение к сети";
 
 

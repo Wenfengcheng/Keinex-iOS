@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             userDefaults.register(defaults: [String(sourceUrl):sourceUrlKeinexCom])
         }
+        
+        userDefaults.register(defaults: [String(autoDelCache):"none"])
+
         return true
     }
 
@@ -29,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        if userDefaults.string(forKey: autoDelCache as String)! == "onClose" {
+            SettingsViewController().deleteCache()
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -38,6 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        if userDefaults.string(forKey: autoDelCache as String)! == "onClose" {
+            SettingsViewController().deleteCache()
+        }
     }
 }
 
