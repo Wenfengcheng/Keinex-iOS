@@ -30,11 +30,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillResignActive(_ application: UIApplication) {
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
+    
+    func deleteCache() {
         if userDefaults.string(forKey: autoDelCache as String)! == "onClose" {
             SettingsViewController().deleteCache()
         }
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        deleteCache()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -44,9 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        if userDefaults.string(forKey: autoDelCache as String)! == "onClose" {
-            SettingsViewController().deleteCache()
-        }
+        deleteCache()
     }
 }
 

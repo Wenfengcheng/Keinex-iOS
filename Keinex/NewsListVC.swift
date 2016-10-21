@@ -1,5 +1,5 @@
 //
-//  LatestNewsTableViewController.swift
+//  NewsListVC.swift
 //  Keinex
 //
 //  Created by Андрей on 7/15/15.
@@ -19,17 +19,18 @@ class LatestNewsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loadInterface()
         getNews()
-        
+    }
+    
+    func loadInterface() {
         self.title = "News".localize
         tableView.isUserInteractionEnabled = false
-
+        
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(LatestNewsTableViewController.newNews), for: UIControlEvents.valueChanged)
         self.refreshControl = refreshControl
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(LatestNewsTableViewController.newNews), name: NSNotification.Name(rawValue: "ChangedSource"), object: nil)
@@ -129,7 +130,7 @@ class LatestNewsTableViewController: UITableViewController {
                 case Type.array:
                     return self.json.count
                 default:
-                    return 10
+                    return 50
             }
         } else {
             return 0

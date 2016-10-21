@@ -18,3 +18,4 @@ let sourceUrl:NSString = "SourceUrlDefault"
 let sourceUrlKeinexRu:NSString = "https://keinex.ru/wp-json/wp/v2/posts/"
 let sourceUrlKeinexCom:NSString = "http://keinex.com/wp-json/wp/v2/posts/"
 let autoDelCache:NSString = "none"
+
