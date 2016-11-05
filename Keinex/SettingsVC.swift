@@ -30,6 +30,15 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        ClearCacheSwitch.addTarget(self, action: #selector(SettingsViewController.clearCacheSwitchState), for: UIControlEvents.valueChanged)
+        ClearCacheSwitch.onTintColor = UIColor.mainColor()
+        
+        if userDefaults.string(forKey: autoDelCache as String)! == "onClose" {
+            ClearCacheSwitch.setOn(true, animated: true);
+        }
+    }
+    
+    func loadTextLabels() {
         self.title = "Settings".localize
         SourceLabel.text = "Source:".localize
         SourceUrl.text = SourceUrlText()
@@ -39,13 +48,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         ClearCacheLabel.text = "Clear cache:".localize
         ClearCacheOnExitLabel.text = "Clear cache on exit:".localize
         VersionNumber.text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        
-        ClearCacheSwitch.addTarget(self, action: #selector(SettingsViewController.clearCacheSwitchState), for: UIControlEvents.valueChanged)
-        ClearCacheSwitch.onTintColor = UIColor.mainColor()
-        
-        if userDefaults.string(forKey: autoDelCache as String)! == "onClose" {
-            ClearCacheSwitch.setOn(true, animated: true);
-        }
     }
     
     func clearCacheSwitchState() {
