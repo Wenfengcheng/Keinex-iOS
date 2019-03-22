@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let lang = Locale.current.identifier
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
 
         if lang == "ru_RU" {
             userDefaults.register(defaults: [String(sourceUrl):sourceUrlKeinexRu])
